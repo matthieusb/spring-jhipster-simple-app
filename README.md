@@ -7,4 +7,6 @@ The point of this project is to design a small spring app that communicates with
 At first this is just going to be a standalone sprinboot app who answers http requests and uses on a Mongodb database, but the objective is to use microservices (Netflix OSS stack possibly)
 
 ## Technologies used
-TODO
+  - API : Spring MVC app (Java) with springboot
+  - Persistence : Mongodb NoSQL Database (Document oriented)
+  - Front-End : TODO
