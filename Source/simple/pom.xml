@@ -51,7 +51,9 @@
                     <watches>
                         <watch>
                             <directory>./src/main/java</directory>
-                            <exclude>*.html</exclude>
+                        </watch>
+                        <watch>
+                            <directory>./src/test/java</directory>
                         </watch>
                     </watches>
                     <goals>
