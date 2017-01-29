@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @Document(collection = "TestSubjects")
 public class TestSubject {
     @Id
-    private Long id;
+    private String id;
 
     @Field("name")
     private String name;
@@ -18,17 +18,17 @@ public class TestSubject {
     @Field("rooms")
     private ArrayList<Room> rooms = new ArrayList<Room>();
 
-    public TestSubject(Long id, String name, ArrayList<Room> rooms) {
+    public TestSubject(String id, String name, ArrayList<Room> rooms) {
         this.id = id;
         this.name = name;
         this.rooms.addAll(rooms);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

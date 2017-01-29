@@ -35,15 +35,15 @@ db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b009"), "login"
 // ----------
 print("##### Adding Rooms ####");
 
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "numero" : 42, "name" : "Answer to life room"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00b"), "numero" : 4, "name" : "Paths"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "numero" : 36, "name" : "6x6"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "numero" : 21, "name" : "Blackjack room"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "numero" : 1000, "name" : "Cake room"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "numero" : 404, "name" : "Room Not found"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "numero" : 666, "name" : "Turret room"});
-db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b03a"), "numero" : 123, "name" : "Sun room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "number" : 42, "name" : "Answer to life room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00b"), "number" : 4, "name" : "Paths"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "number" : 36, "name" : "6x6"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "number" : 21, "name" : "Blackjack room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "number" : 1000, "name" : "Cake room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "number" : 404, "name" : "Room Not found"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "number" : 666, "name" : "Turret room"});
+db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b03a"), "number" : 123, "name" : "Sun room"});
 
 // ----------
 print("##### Adding test TestSubjects ####");
@@ -52,15 +52,15 @@ db.TestSubjects.insert(
 	{
 		"name" : "Chell",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00b"), "numero" : 4, "name" : "Paths"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "numero" : 36, "name" : "6x6"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "numero" : 42, "name" : "Answer to life room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "numero" : 21, "name" : "Blackjack room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b03a"), "numero" : 123, "name" : "Sun room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "numero" : 404, "name" : "Room Not found"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "numero" : 666, "name" : "Turret room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "numero" : 1000, "name" : "Cake room"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00b"), "number" : 4, "name" : "Paths"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "number" : 36, "name" : "6x6"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "number" : 42, "name" : "Answer to life room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "number" : 21, "name" : "Blackjack room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b03a"), "number" : 123, "name" : "Sun room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "number" : 404, "name" : "Room Not found"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "number" : 666, "name" : "Turret room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "number" : 1000, "name" : "Cake room"}
 		]
 	}
 );
@@ -69,9 +69,9 @@ db.TestSubjects.insert(
 	{
 		"name" : "Doug Rattman",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "numero" : 42, "name" : "Answer to life room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "numero" : 21, "name" : "Blackjack room"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "number" : 42, "name" : "Answer to life room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00e"), "number" : 21, "name" : "Blackjack room"}
 		]
 	}
 );
@@ -81,8 +81,8 @@ db.TestSubjects.insert(
 	{
 		"name" : "Companion Cube",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "numero" : 666, "name" : "Turret room"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "number" : 666, "name" : "Turret room"}
 		]
 	}
 );
@@ -91,8 +91,8 @@ db.TestSubjects.insert(
 	{
 		"name" : "Cave Johnson",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "numero" : 1000, "name" : "Cake room"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00f"), "number" : 1000, "name" : "Cake room"}
 		]
 	}
 );
@@ -101,8 +101,8 @@ db.TestSubjects.insert(
 	{
 		"name" : "Caroline",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "numero" : 36, "name" : "6x6"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00c"), "number" : 36, "name" : "6x6"}
 		]
 	}
 );
@@ -111,8 +111,8 @@ db.TestSubjects.insert(
 	{
 		"name" : "Atlas",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "numero" : 404, "name" : "Room Not found"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "number" : 404, "name" : "Room Not found"}
 		]
 	}
 );
@@ -121,8 +121,8 @@ db.TestSubjects.insert(
 	{
 		"name" : "P-Body",
 		"rooms": [
-			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "numero" : 1, "name" : "Initiation room"},
-			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "numero" : 404, "name" : "Room Not found"}
+			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
+			{"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "number" : 404, "name" : "Room Not found"}
 		]
 	}
 );
