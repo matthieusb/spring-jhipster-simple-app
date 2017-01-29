@@ -41,4 +41,8 @@ public class RoomControllerTests {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
