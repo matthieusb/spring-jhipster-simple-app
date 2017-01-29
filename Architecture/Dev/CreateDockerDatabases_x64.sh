@@ -11,8 +11,11 @@
 #### MONGODB
 ###############################
 
+# -- Stopping any mongo local service that has nothing to do with docker
+sudo /etc/init.d/mongodb stop
+
 # -- Creating and launching container
-docker run -p 28042:27017 --name spring_mongo_instance_01 -d mongo
+docker run -p 27017:27017 --name spring_mongo_instance_01 -d mongo
 
 # -- Identification (Command line)
-# mongo --port 28042
+# mongo --port 27017

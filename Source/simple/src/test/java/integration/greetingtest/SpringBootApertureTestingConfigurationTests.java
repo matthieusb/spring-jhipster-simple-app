@@ -1,4 +1,4 @@
-package greetingtest;
+package integration.greetingtest;
 
 import config.SpringBootApertureTestingConfiguration;
 
@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -26,28 +27,38 @@ import static org.assertj.core.api.BDDAssertions.then;
 @TestPropertySource(properties = {"management.port=0"})
 public class SpringBootApertureTestingConfigurationTests {
 
-  @LocalServerPort
-  private int port;
+    @LocalServerPort
+    private int port;
 
-  @Value("${local.management.port}")
-  private int mgt;
+    @Value("${local.management.port}")
+    private int mgt;
 
-  @SuppressWarnings("SpringJavaAutowiredMembersInspection")
-  @Autowired
-  private TestRestTemplate testRestTemplate;
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
-  /* PERSONAL ROUTES */
-  @Test
-  public void shouldReturn200GreetingRoute() throws Exception {
-    @SuppressWarnings("rawtypes")
-    ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-      "http://localhost:" + this.port + "/greeting", Map.class
-    );
+    /* PERSONAL ROUTES */
+    @Test
+    public void shouldReturn200GreetingRoute() throws Exception {
+        @SuppressWarnings("rawtypes")
+        ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + "/greeting", Map.class
+        );
 
-    then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-  }
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 
-  /* SYSTEM ROUTES */
+    @Test
+    public void shouldReturn200RoomsRoute() throws Exception {
+        @SuppressWarnings("rawtypes")
+        ResponseEntity<Object[]> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + "/rooms", Object[].class
+        );
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    /* SYSTEM ROUTES */
     @Test
     public void shouldReturn200Health() throws Exception {
         @SuppressWarnings("rawtypes")
@@ -58,14 +69,14 @@ public class SpringBootApertureTestingConfigurationTests {
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-  @Test
-  public void shouldReturn200InfoRoute() throws Exception {
-    @SuppressWarnings("rawtypes")
-    ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-      "http://localhost:" + this.mgt + "/info", Map.class
-    );
+    @Test
+    public void shouldReturn200InfoRoute() throws Exception {
+        @SuppressWarnings("rawtypes")
+        ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.mgt + "/info", Map.class
+        );
 
-    then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-  }
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 
 }

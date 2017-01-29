@@ -1,13 +1,24 @@
 package model;
 
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "TestSupervisors")
 public class TestSupervisor {
-    private Long testSupervisorId;
+
+    @Id
+    private Long id;
+
+    @Field("login")
     private String login;
+
+    @Field("pass")
     private String pass;
 
-    public TestSupervisor(Long testSupervisorId, String login, String pass) {
-        this.testSupervisorId = testSupervisorId;
+    public TestSupervisor(Long id, String login, String pass) {
+        this.id = id;
         this.login = login;
         this.pass = pass;
     }
@@ -28,11 +39,11 @@ public class TestSupervisor {
         this.pass = pass;
     }
 
-    public Long getTestSupervisorId() {
-        return testSupervisorId;
+    public Long getId() {
+        return id;
     }
 
-    public void setTestSupervisorId(Long testSupervisorId) {
-        this.testSupervisorId = testSupervisorId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -1,12 +1,16 @@
 package controllers;
 
 
+import model.Greeting;
+import model.Room;
 import repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/rooms")
@@ -20,9 +24,9 @@ public class RoomController {
     }
 
 
-    @RequestMapping(method= RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
-    void sayHello() {
-        System.out.println("####### RESULTAT : " + roomRepository.findById("5063114bd386d8fadbd6b00a"));
+    List<Room> getAllRooms() {
+        return roomRepository.findAll();
     }
 }

@@ -2,13 +2,18 @@ package model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "Rooms")
 public class Room {
 
-    @Id private String id;
+    @Id
+    private String id;
 
+    @Field("number")
     private Integer number;
+
+    @Field("name")
     private String name;
 
     public Room() {
@@ -17,8 +22,8 @@ public class Room {
         this.name = "";
     }
 
-    public Room(String roomId, Integer number, String name) {
-        this.id = roomId;
+    public Room(String id, Integer number, String name) {
+        this.id = id;
         this.number = number;
         this.name = name;
     }

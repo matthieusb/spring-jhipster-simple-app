@@ -3,5 +3,11 @@ language: java
 jdk:
   - oraclejdk8
 
+services:
+  - mongodb
+
+before_script:
+  - mongo Data/initializeData.js
+
 script:
   cd Source/simple && mvn test

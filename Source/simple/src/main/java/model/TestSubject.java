@@ -1,25 +1,35 @@
 package model;
 
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.ArrayList;
 
+@Document(collection = "TestSubjects")
 public class TestSubject {
-    private Long testSubjectId;
+    @Id
+    private Long id;
+
+    @Field("name")
     private String name;
+
+    @Field("rooms")
     private ArrayList<Room> rooms = new ArrayList<Room>();
 
-    public TestSubject(Long testSubjectId, String name, ArrayList<Room> rooms) {
-        this.testSubjectId = testSubjectId;
+    public TestSubject(Long id, String name, ArrayList<Room> rooms) {
+        this.id = id;
         this.name = name;
         this.rooms.addAll(rooms);
     }
 
-    public Long getTestSubjectId() {
-        return testSubjectId;
+    public Long getId() {
+        return id;
     }
 
-    public void setTestSubjectId(Long testSubjectId) {
-        this.testSubjectId = testSubjectId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
