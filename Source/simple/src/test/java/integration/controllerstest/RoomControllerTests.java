@@ -1,7 +1,7 @@
-package integration.greetingtest;
+package integration.controllerstest;
+
 
 import config.SpringBootApertureTestingConfiguration;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import static org.assertj.core.api.BDDAssertions.then;
 
-/**
- * This class tests if every url of this app returns the expected HTTP STATUS
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-public class SpringBootApertureTestingConfigurationTests {
+
+public class RoomControllerTests {
 
     @LocalServerPort
     private int port;
@@ -38,23 +33,12 @@ public class SpringBootApertureTestingConfigurationTests {
     private TestRestTemplate testRestTemplate;
 
     @Test
-    public void shouldReturn200Health() throws Exception {
+    public void shouldReturn200RoomsRoute() throws Exception {
         @SuppressWarnings("rawtypes")
-        ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.mgt + "/health", Map.class
+        ResponseEntity<Object[]> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + "/rooms", Object[].class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
-    @Test
-    public void shouldReturn200InfoRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.mgt + "/info", Map.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
 }
