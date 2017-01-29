@@ -1,4 +1,4 @@
-package hellotest;
+package greetingtest;
 
 import config.SpringBootApertureTestingConfiguration;
 

@@ -1,30 +1,41 @@
 package model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "Rooms")
 public class Room {
-    private Long roomId;
-    private String number;
+
+    @Id private String id;
+
+    private Integer number;
     private String name;
 
-    public Room(Long roomId, String number, String name) {
-        this.roomId = roomId;
+    public Room() {
+        this.id = "";
+        this.number = -1;
+        this.name = "";
+    }
+
+    public Room(String roomId, Integer number, String name) {
+        this.id = roomId;
         this.number = number;
         this.name = name;
     }
 
-    public Long getRoomId() {
-        return roomId;
+    public String getId() {
+        return id;
     }
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -34,5 +45,13 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "Room[id=%s, number=%s, name=%s]",
+                id, number, name
+        );
     }
 }
