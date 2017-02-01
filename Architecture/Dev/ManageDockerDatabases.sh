@@ -14,6 +14,10 @@ docker_containers=( "spring_mongo_instance_01" )
 
 # -- Starting Instances
 _launch_all_instances() {
+
+# In this specific project, shutting down a possible mongo daemon on the local machine
+sudo /etc/init.d/mongodb stop
+
 # Starting all instances except if they are running)
 	for i in "${docker_containers[@]}"
 		do
