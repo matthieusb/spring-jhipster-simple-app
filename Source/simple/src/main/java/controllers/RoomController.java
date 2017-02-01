@@ -21,19 +21,19 @@ public class RoomController {
     }
 
 
-    @RequestMapping(path = "/rooms", method = RequestMethod.GET)
+    @RequestMapping(path = "/rooms", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
-    @RequestMapping(path = "/rooms/getById/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/rooms/getById/{id}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     Room getRoomById(@PathVariable(value="id") String roomIdToSearch) {
         return roomRepository.findById(roomIdToSearch);
     }
 
-    @RequestMapping(path = "/rooms/getByNumber/{number}", method = RequestMethod.GET)
+    @RequestMapping(path = "/rooms/getByNumber/{number}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     List<Room> getRoomByNumber(@PathVariable(value="number") Integer roomNumberToSearch) {
         return roomRepository.findByNumber(roomNumberToSearch);

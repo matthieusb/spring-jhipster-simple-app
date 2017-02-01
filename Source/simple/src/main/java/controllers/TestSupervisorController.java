@@ -21,7 +21,7 @@ public class TestSupervisorController {
         this.testSupervisorRepository = testSupervisorRepository;
     }
 
-    @RequestMapping(path = "/supervisors", method = RequestMethod.GET)
+    @RequestMapping(path = "/supervisors", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     List<TestSupervisor> getAllTestSupervisors() {
         return testSupervisorRepository.findAll();

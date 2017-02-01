@@ -21,7 +21,7 @@ public class TestSubjectController {
         this.testSubjectRepository = testSubjectRepository;
     }
 
-    @RequestMapping(path = "/subjects", method = RequestMethod.GET)
+    @RequestMapping(path = "/subjects", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     List<TestSubject> getAllTestSubjects() {
         return testSubjectRepository.findAll();
