@@ -10,4 +10,4 @@ before_script:
   - mongo Data/initializeData.js
 
 script:
-  cd Source/simple && mvn test
+  cd Source/simpleRestApi && mvn test
