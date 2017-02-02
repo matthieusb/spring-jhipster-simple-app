@@ -42,6 +42,14 @@ public class RoomControllerTests {
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    //TODO FINISH THESES TESTS
+//    @Test
+//    public void shouldReturn200RoomsIdRoute() throws Exception {
+//        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+//            "http://localhost:" + this.port + "/rooms/id/5465465465465456f"
+//        )
+//    }
+
     public void setPort(int port) {
         this.port = port;
     }
