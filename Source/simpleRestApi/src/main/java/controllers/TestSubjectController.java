@@ -1,7 +1,9 @@
 package controllers;
 
+import controllers.common.ResponseEntityOperations;
 import model.TestSubject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +25,10 @@ public class TestSubjectController {
 
     @RequestMapping(path = "/subjects", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    List<TestSubject> getAllTestSubjects() {
-        return testSubjectRepository.findAll();
+    ResponseEntity<?> getAllTestSubjects() {
+        return ResponseEntityOperations.getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
     }
+
+
 
 }

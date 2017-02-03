@@ -1,6 +1,7 @@
 package controllers;
 
 
+import controllers.common.ResponseEntityOperations;
 import model.Room;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -23,33 +25,24 @@ public class RoomController {
 
     @RequestMapping(path = "/rooms", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    List<Room> getAllRooms() {
-        return roomRepository.findAll();
+    ResponseEntity<?> getAllRooms() {
+        return ResponseEntityOperations.
+                getResponseEntityForMultipleResponses(roomRepository.findAll());
     }
 
 
     @RequestMapping(path = "/rooms/id/{id}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getRoomById(@PathVariable(value="id") String roomIdToSearch) {
-        Room roomToReturn = roomRepository.findById(roomIdToSearch);
-
-        if (roomToReturn == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(roomToReturn, HttpStatus.OK);
-        }
+        return ResponseEntityOperations.
+                getResponseEntityForSingleResponse(roomRepository.findById(roomIdToSearch));
     }
 
     @RequestMapping(path = "/rooms/number/{number}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getRoomByNumber(@PathVariable(value="number") Integer roomNumberToSearch) {
-        List<Room> roomsToReturn = roomRepository.findByNumber(roomNumberToSearch);
-
-        if (roomsToReturn.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(roomsToReturn, HttpStatus.OK);
-        }
+        return ResponseEntityOperations.
+                getResponseEntityForMultipleResponses(roomRepository.findByNumber(roomNumberToSearch));
     }
 
 }
