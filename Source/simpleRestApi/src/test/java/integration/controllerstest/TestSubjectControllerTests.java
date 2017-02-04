@@ -21,6 +21,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 public class TestSubjectControllerTests {
 
+    // -- System variables
     @LocalServerPort
     private int port;
 
@@ -30,6 +31,10 @@ public class TestSubjectControllerTests {
     @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     @Test
     public void shouldReturn200SubjectsRoute() throws Exception {
@@ -41,7 +46,5 @@ public class TestSubjectControllerTests {
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+
 }

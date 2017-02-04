@@ -59,4 +59,19 @@ public class Room {
                 id, number, name
         );
     }
+
+    @Override
+    public boolean equals(Object objToCompare) {
+        if (this == objToCompare)
+            return true;
+
+        if (objToCompare instanceof Room) {
+            Room objAsRoom = (Room) objToCompare;
+            return objAsRoom.getId().equals(this.getId())
+                    && objAsRoom.getNumber().equals(this.getNumber())
+                    && objAsRoom.getName().equals(this.getName());
+        } else {
+            return false;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package integration.controllerstest;
 
 import config.SpringBootApertureTestingConfiguration;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 public class TestSupervisorControllerTests {
 
+    // -- System variables
     @LocalServerPort
     private int port;
 
@@ -31,17 +33,27 @@ public class TestSupervisorControllerTests {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    // -- Variables used for tests
+    private String hostPathWithPort;
+
+    @Before
+    public void setup() {
+        this.hostPathWithPort = "http://localhost:" + this.port;
+    }
+
     @Test
     public void shouldReturn200SupervisorsRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Object[]> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + "/supervisors", Object[].class
+                hostPathWithPort + "/supervisors", Object[].class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+
 }

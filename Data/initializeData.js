@@ -15,7 +15,7 @@ var database = "apiApertureBdd";
 var db;
 
 print("##### Connecting to the apiApertureBdd database ####");
-db = db.getSiblingDB('apiApertureBdd');
+db = db.getSiblingDB('apiApertureDB');
 
 
 print("##### Wiping previous data ####");

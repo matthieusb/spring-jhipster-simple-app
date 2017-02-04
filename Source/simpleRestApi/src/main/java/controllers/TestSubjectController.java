@@ -2,13 +2,11 @@ package controllers;
 
 import controllers.common.ResponseEntityOperations;
 import model.TestSubject;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import repositories.TestSubjectRepository;
 
 import java.util.List;
@@ -29,6 +27,10 @@ public class TestSubjectController {
         return ResponseEntityOperations.getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
     }
 
-
+    @RequestMapping(path = "/subjects/id/{id}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    ResponseEntity<?> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
+        return ResponseEntityOperations.getResponseEntityForSingleResponse(testSubjectRepository.findById(testSubjectIdToSearch));
+    }
 
 }
