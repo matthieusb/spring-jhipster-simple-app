@@ -43,11 +43,15 @@ public class RoomControllerTests {
     // -- Variables used for tests
     private String hostPathWithPort;
     private Room room42;
+    private HttpHeaders headersFormUrlEncoded;
 
     @Before
     public void setup() {
         hostPathWithPort = "http://localhost:" + this.port;
         room42 = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room");
+
+        headersFormUrlEncoded = new HttpHeaders();
+        headersFormUrlEncoded.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     }
 
 
@@ -86,13 +90,14 @@ public class RoomControllerTests {
     // -- Content returned tests
 
     @Test
-    public void shouldReturnElementsRoomsRoute() throws Exception {
+    public void shouldReturnElementsAndRoom42RoomsRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
                 hostPathWithPort + "/rooms", Room[].class
         );
 
         then(entity.getBody()).isNotEmpty();
+        then(entity.getBody()).contains(room42);
     }
 
     @Test
@@ -120,13 +125,10 @@ public class RoomControllerTests {
     @Test
     public void shouldReturnElementRoomsNameRoute() throws Exception {
         @SuppressWarnings("rawtypes")
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> parametersToSend = new LinkedMultiValueMap<>();
         parametersToSend.add("name", room42.getName());
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, headers);
-
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
         ResponseEntity<Room[]> entity = this.testRestTemplate.postForEntity(
                 hostPathWithPort + "/rooms/name", request, Room[].class
         );
