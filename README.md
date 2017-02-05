@@ -9,4 +9,4 @@ At first this is just going to be a standalone sprinboot app who answers http re
 ## Technologies used
   - API : Spring MVC app (Java) with springboot
   - Persistence : Mongodb NoSQL Database (Document oriented)
-  - Front-End : TODO
+  - Front-End : JHipster app with AngularJs 1 
