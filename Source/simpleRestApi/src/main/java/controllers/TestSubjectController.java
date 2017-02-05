@@ -24,13 +24,22 @@ public class TestSubjectController {
     @RequestMapping(path = "/subjects", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllTestSubjects() {
-        return ResponseEntityOperations.getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
+        return ResponseEntityOperations.
+                getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
     }
 
     @RequestMapping(path = "/subjects/id/{id}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
-        return ResponseEntityOperations.getResponseEntityForSingleResponse(testSubjectRepository.findById(testSubjectIdToSearch));
+        return ResponseEntityOperations.
+                getResponseEntityForSingleResponse(testSubjectRepository.findById(testSubjectIdToSearch));
+    }
+
+    @RequestMapping(path = "/subjects/name", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    ResponseEntity<?> getTestSubjectByName(@RequestParam(value = "name") String testSubjectNameToSearch) {
+        return ResponseEntityOperations.
+                getResponseEntityForMultipleResponses(testSubjectRepository.findByName(testSubjectNameToSearch));
     }
 
 }

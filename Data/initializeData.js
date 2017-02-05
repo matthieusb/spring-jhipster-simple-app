@@ -50,6 +50,7 @@ print("##### Adding test TestSubjects ####");
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00a"),
 		"name" : "Chell",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -67,6 +68,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00b"),
 		"name" : "Doug Rattman",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -79,6 +81,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00c"),
 		"name" : "Companion Cube",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -89,6 +92,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00d"),
 		"name" : "Cave Johnson",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -99,6 +103,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00e"),
 		"name" : "Caroline",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -109,6 +114,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b00f"),
 		"name" : "Atlas",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},
@@ -119,6 +125,7 @@ db.TestSubjects.insert(
 
 db.TestSubjects.insert(
 	{
+		"_id" : ObjectId("5063114bd386d8fadbd6b01a"),
 		"name" : "P-Body",
 		"rooms": [
 			{"_id" : ObjectId("5063114bd386d8fadbd6b00d"), "number" : 1, "name" : "Initiation room"},

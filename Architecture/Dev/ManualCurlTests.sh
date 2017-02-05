@@ -34,12 +34,10 @@ curl -i -X POST localhost:8080/rooms/name --data "name=Test" # Does not exist
 curl -i -X POST localhost:8080/rooms/name --data "name=Paths" # Exists
 curl -i -X POST localhost:8080/rooms/name --data "name=Answer to life room" # Exists
 
-# -- TestSubjects
-
-# -- TestSupervisors FindById
+# -- TestSubjects FindByName
 printf "\n##################################################\n"
-curl -i -X GET localhost:8080/supervisors/id/42 # Doest not exist
-curl -i -X GET localhost:8080/supervisors/id/5063114bd386d8fadbd6b004 # Exists
+curl -i -X POST localhost:8080/subjects/name --data "name=42" # Does not exist
+curl -i -X POST localhost:8080/subjects/name --data "name=Caroline" # Exists
 
 # -- TestSupervisors FindByLogin
 printf "\n##################################################\n"
