@@ -1,0 +1,24 @@
+{
+    "simpleJhipsterApp": {
+        "apiEndpoints" : {
+            "home": {
+                "title": "Api Endpoints",
+                "createLabel": "Create a new Api Endpoints",
+                "createOrEditLabel": "Create or edit a Api Endpoints"
+            },
+            "created": "A new Api Endpoints is created with identifier {{ param }}",
+            "updated": "A Api Endpoints is updated with identifier {{ param }}",
+            "deleted": "A Api Endpoints is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Api Endpoints {{ id }}?"
+            },
+            "detail": {
+                "title": "Api Endpoints"
+            },
+            "name": "Name",
+            "environment": "Environment",
+            "host": "Host",
+            "path": "Path"
+        }
+    }
+}
