@@ -21,21 +21,21 @@ public class TestSubjectController {
         this.testSubjectRepository = testSubjectRepository;
     }
 
-    @RequestMapping(path = "/subjects", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/subjects", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllTestSubjects() {
         return ResponseEntityOperations.
                 getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
     }
 
-    @RequestMapping(path = "/subjects/id/{id}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/subjects/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
         return ResponseEntityOperations.
                 getResponseEntityForSingleResponse(testSubjectRepository.findById(testSubjectIdToSearch));
     }
 
-    @RequestMapping(path = "/subjects/name", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping(path = "/subjects/name", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSubjectByName(@RequestParam(value = "name") String testSubjectNameToSearch) {
         return ResponseEntityOperations.

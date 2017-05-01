@@ -20,21 +20,21 @@ public class TestSupervisorController {
         this.testSupervisorRepository = testSupervisorRepository;
     }
 
-    @RequestMapping(path = "/supervisors", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/supervisors", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllTestSupervisors() {
         return ResponseEntityOperations.
                 getResponseEntityForMultipleResponses(testSupervisorRepository.findAll());
     }
 
-    @RequestMapping(path = "/supervisors/id/{id}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/supervisors/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSupervisorById(@PathVariable(value = "id") String testSupervisorIdToSearch) {
         return ResponseEntityOperations.
                 getResponseEntityForSingleResponse(testSupervisorRepository.findById(testSupervisorIdToSearch));
     }
 
-    @RequestMapping(path = "/supervisors/login", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping(path = "/supervisors/login", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSupervisorByLogin(@RequestParam(value = "login") String testSupervisorLoginToSearch) {
         return ResponseEntityOperations.

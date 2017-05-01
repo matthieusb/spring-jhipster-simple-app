@@ -1,7 +1,7 @@
 /*
     initializeData.js : Initialize mongodb database for project tests
 
-    TO LAUNCH IT : mongo --port 27017 initializeData.js
+    TO LAUNCH IT : mongo --port 27017 initializeDataTest.js
 */
 
 
@@ -9,7 +9,7 @@
 var db;
 
 print('##### Connecting to the apiApertureBdd database ####');
-db = db.getSiblingDB('apiApertureDB');
+db = db.getSiblingDB('apiApertureTest');
 
 
 print('##### Wiping previous data ####');
@@ -21,9 +21,6 @@ print('##### Adding testing supervisors ####');
 
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b004"), "login" : "glados@aperture.fr", "pass" : "caroline"});
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b005"), "login" : "wheatley@aperture.fr", "pass" : "iminspace"});
-db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b006"), "login" : "fd@aperture.fr", "pass" : "fd"});
-db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b007"), "login" : "saubouaben@aperture.fr", "pass" : "sb"});
-db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b008"), "login" : "test", "pass" : "test"});
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b009"), "login" : "t", "pass" : "t"});
 
 // ---------- Rooms

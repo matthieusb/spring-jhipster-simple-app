@@ -23,28 +23,28 @@ public class RoomController {
     }
 
 
-    @RequestMapping(path = "/rooms", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/rooms", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllRooms() {
         return ResponseEntityOperations.
                 getResponseEntityForMultipleResponses(roomRepository.findAll());
     }
 
-    @RequestMapping(path = "/rooms/id/{id}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/rooms/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getRoomById(@PathVariable(value = "id") String roomIdToSearch) {
         return ResponseEntityOperations.
                 getResponseEntityForSingleResponse(roomRepository.findById(roomIdToSearch));
     }
 
-    @RequestMapping(path = "/rooms/number/{number}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/rooms/number/{number}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getRoomByNumber(@PathVariable(value = "number") Integer roomNumberToSearch) {
         return ResponseEntityOperations.
                 getResponseEntityForMultipleResponses(roomRepository.findByNumber(roomNumberToSearch));
     }
 
-    @RequestMapping(path = "/rooms/name", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping(path = "/rooms/name", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getRoomByName(@RequestParam(value = "name") String roomNameToSearch) {
         return ResponseEntityOperations.
