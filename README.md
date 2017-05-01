@@ -10,3 +10,4 @@ The point of this project is to design a small spring rest api that communicates
 ## Technologies used
   - API : Spring MVC app (Java) with springboot
   - Persistence : Mongodb NoSQL Database (Document oriented)
+
