@@ -1,4 +1,9 @@
+# Java classes
 *.class
+target/
+
+# Intellij files
+.idea/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
