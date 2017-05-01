@@ -5,25 +5,19 @@
 */
 
 
-// -- Constants
-var host = "localhost";
-var port = "28042";
-var database = "apiApertureBdd";
-//var connectionString = host.concat(port).concat(datbase);
-
 // -- Used variables
 var db;
 
-print("##### Connecting to the apiApertureBdd database ####");
+print('##### Connecting to the apiApertureBdd database ####');
 db = db.getSiblingDB('apiApertureDB');
 
 
-print("##### Wiping previous data ####");
+print('##### Wiping previous data ####');
 db.dropDatabase();
 
 
 // ----------
-print("##### Adding testing supervisors ####");
+print('##### Adding testing supervisors ####');
 
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b004"), "login" : "glados@aperture.fr", "pass" : "caroline"});
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b005"), "login" : "wheatley@aperture.fr", "pass" : "iminspace"});
@@ -32,7 +26,7 @@ db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b007"), "login"
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b008"), "login" : "test", "pass" : "test"});
 db.TestSupervisors.insert({"_id" : ObjectId("5063114bd386d8fadbd6b009"), "login" : "t", "pass" : "t"});
 
-// ----------
+// ---------- Rooms
 print("##### Adding Rooms ####");
 
 db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b00a"), "number" : 42, "name" : "Answer to life room"});
@@ -45,7 +39,7 @@ db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b01a"), "number" : 404, "
 db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b02a"), "number" : 666, "name" : "Turret room"});
 db.Rooms.insert({"_id" : ObjectId("5063114bd386d8fadbd6b03a"), "number" : 123, "name" : "Sun room"});
 
-// ----------
+// ---------- TestSubjects
 print("##### Adding test TestSubjects ####");
 
 db.TestSubjects.insert(
