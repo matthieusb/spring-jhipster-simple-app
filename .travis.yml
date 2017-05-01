@@ -7,7 +7,7 @@ services:
   - mongodb
 
 before_script:
-  - mongo Data/initializeData.js
+  - mongo data/initializeData.js
 
 script:
-  cd Source/simpleRestApi && mvn test
+  mvn test
