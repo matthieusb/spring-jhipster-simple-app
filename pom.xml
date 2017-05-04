@@ -13,6 +13,14 @@
       <version>1.4.3.RELEASE</version>
     </parent>
 
+    <!-- Properties -->
+    <properties>
+        <springfox.version>2.6.1</springfox.version>
+        <springfox.swaggerui.version>2.4.0</springfox.swaggerui.version>
+        <fizzedwatcher.version>1.0.6</fizzedwatcher.version>
+    </properties>
+
+
     <!-- Project dependencies  -->
     <dependencies>
         <dependency>
@@ -35,6 +43,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.swaggerui.version}</version>
+        </dependency>
     </dependencies>
 
     <!-- Project build options and plugins -->
@@ -50,7 +70,7 @@
             <plugin>
               <groupId>com.fizzed</groupId>
               <artifactId>fizzed-watcher-maven-plugin</artifactId>
-              <version>1.0.6</version>
+              <version>${fizzedwatcher.version}</version>
               <configuration> <!-- DEFINE WATCHES HERE -->
                   <touchFile>target/classes/watcher.txt</touchFile>
                   <watches>
