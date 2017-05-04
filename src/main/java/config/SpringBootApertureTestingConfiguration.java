@@ -19,32 +19,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 @SpringBootApplication
-@EnableSwagger2
 @ComponentScan("controllers, model")
 @EnableMongoRepositories("repositories")
 public class SpringBootApertureTestingConfiguration {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootApertureTestingConfiguration.class, args);
-    }
-
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-            .apiInfo(apiInfo())
-            .select()
-            //.apis(RequestHandlerSelectors.basePackage("main.java.controllers"))
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build();
-    }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-            .title("Spring REST API simple app")
-            .description("Spring REST Api with MongoDb persistence")
-            .license("Apache License Version 2.0")
-            .licenseUrl("https://github.com/matthieusb/spring-simple-api")
-            .version("2.0")
-            .build();
     }
 }
