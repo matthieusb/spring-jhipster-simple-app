@@ -1,14 +1,10 @@
 package controllers;
 
-import controllers.common.ResponseEntityOperations;
-import model.TestSupervisor;
+import controllers.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import repositories.TestSupervisorRepository;
-
-import java.util.List;
 
 @RestController
 public class TestSupervisorController {
@@ -23,21 +19,21 @@ public class TestSupervisorController {
     @GetMapping(path = "/supervisors", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllTestSupervisors() {
-        return ResponseEntityOperations.
+        return ResponseEntityUtils.
                 getResponseEntityForMultipleResponses(testSupervisorRepository.findAll());
     }
 
     @GetMapping(path = "/supervisors/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSupervisorById(@PathVariable(value = "id") String testSupervisorIdToSearch) {
-        return ResponseEntityOperations.
+        return ResponseEntityUtils.
                 getResponseEntityForSingleResponse(testSupervisorRepository.findById(testSupervisorIdToSearch));
     }
 
     @PostMapping(path = "/supervisors/login", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSupervisorByLogin(@RequestParam(value = "login") String testSupervisorLoginToSearch) {
-        return ResponseEntityOperations.
+        return ResponseEntityUtils.
                 getResponseEntityForSingleResponse(testSupervisorRepository.findByLogin(testSupervisorLoginToSearch));
     }
 }

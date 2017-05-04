@@ -8,6 +8,7 @@ services:
 
 before_script:
   - mongo data/initializeData.js
+  - mongo data/initializeDataTest.js
 
 script:
   mvn test

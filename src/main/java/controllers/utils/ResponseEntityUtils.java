@@ -1,4 +1,4 @@
-package controllers.common;
+package controllers.utils;
 
 
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public class ResponseEntityOperations {
+public class ResponseEntityUtils {
 
     public static <E> ResponseEntity<?> getResponseEntityForSingleResponse(E elementToReturn) {
         if (elementToReturn == null) {
