@@ -38,7 +38,7 @@ public class GreetingsControllerTests {
     public void shouldReturn200GreetingRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + "/greeting", Map.class
+                "http://localhost:" + this.port + "/api/greeting", Map.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -48,7 +48,7 @@ public class GreetingsControllerTests {
     public void shouldReturnAValidGreetingJsonWithSimpleHelloWorld() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + "/greeting", Map.class
+                "http://localhost:" + this.port + "/api/greeting", Map.class
         );
 
         Map responseBody = entity.getBody();

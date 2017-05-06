@@ -51,7 +51,7 @@ public class TestSubjectControllerTests {
 
     @Before
     public void setup() {
-        hostPathWithPort = "http://localhost:" + this.port;
+        hostPathWithPort = "http://localhost:" + this.port + "/api";
         headersFormUrlEncoded = new HttpHeaders();
         headersFormUrlEncoded.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -78,7 +78,7 @@ public class TestSubjectControllerTests {
     public void shouldReturn200SubjectIdFoundRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<TestSubject> entity = this.testRestTemplate.getForEntity(
-            this.hostPathWithPort + "subjects/id/" + carolineSubject.getId(), TestSubject.class
+            this.hostPathWithPort + "/subjects/id/" + carolineSubject.getId(), TestSubject.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -88,7 +88,7 @@ public class TestSubjectControllerTests {
     public void shouldReturn204SubjectIdNotFoundRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<TestSubject> entity = this.testRestTemplate.getForEntity(
-                this.hostPathWithPort + "subjects/id/" + 42, TestSubject.class
+                this.hostPathWithPort + "/subjects/id/" + 42, TestSubject.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -111,7 +111,7 @@ public class TestSubjectControllerTests {
     public void shouldReturnCarolineSubjectIdRoute() {
         @SuppressWarnings("rawtypes")
         ResponseEntity<TestSubject> entity = this.testRestTemplate.getForEntity(
-                this.hostPathWithPort + "subjects/id/" + carolineSubject.getId(), TestSubject.class
+                this.hostPathWithPort + "/subjects/id/" + carolineSubject.getId(), TestSubject.class
         );
 
         then(entity.getBody()).isEqualTo(carolineSubject);
@@ -127,7 +127,7 @@ public class TestSubjectControllerTests {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramatersToSend, this.headersFormUrlEncoded);
         ResponseEntity<TestSubject[]> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "subjects/name", request, TestSubject[].class
+                hostPathWithPort + "/subjects/name", request, TestSubject[].class
         );
 
         then(entity.getBody()).isNotEmpty();

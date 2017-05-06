@@ -46,7 +46,7 @@ public class TestSupervisorControllerTests {
 
     @Before
     public void setup() {
-        this.hostPathWithPort = "http://localhost:" + this.port;
+        this.hostPathWithPort = "http://localhost:" + this.port + "/api";
         supervisorGlados = new TestSupervisor("5063114bd386d8fadbd6b004", "glados@aperture.fr", "caroline");
 
         headersFormUrlEncoded = new HttpHeaders();
@@ -122,7 +122,7 @@ public class TestSupervisorControllerTests {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
         ResponseEntity<TestSupervisor> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "supervisors/login", request, TestSupervisor.class
+                hostPathWithPort + "/supervisors/login", request, TestSupervisor.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);

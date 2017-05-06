@@ -61,7 +61,7 @@ public class RoomControllerTests {
     public void shouldReturn200RoomsRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/rooms", Room[].class
+                hostPathWithPort + "/api/rooms", Room[].class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -71,7 +71,7 @@ public class RoomControllerTests {
     public void shouldReturn200RoomsIdFoundRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room> entity = testRestTemplate.getForEntity(
-            hostPathWithPort + "/rooms/id/5063114bd386d8fadbd6b00a", Room.class
+            hostPathWithPort + "/api/rooms/id/5063114bd386d8fadbd6b00a", Room.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -81,7 +81,7 @@ public class RoomControllerTests {
     public void shouldReturn204RoomsIdNotFoundRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room> entity = this.testRestTemplate.getForEntity(
-            hostPathWithPort + "/rooms/id/42", Room.class
+            hostPathWithPort + "/api/rooms/id/42", Room.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -93,7 +93,7 @@ public class RoomControllerTests {
     public void shouldReturnElementsAndRoom42RoomsRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/rooms", Room[].class
+                hostPathWithPort + "/api/rooms", Room[].class
         );
 
         then(entity.getBody()).isNotEmpty();
@@ -104,7 +104,7 @@ public class RoomControllerTests {
     public void shouldReturnElementRoomsIdRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/rooms/id/" + room42.getId(), Room.class
+                hostPathWithPort + "/api/rooms/id/" + room42.getId(), Room.class
         );
 
         then(entity.getBody()).
@@ -115,7 +115,7 @@ public class RoomControllerTests {
     public void shouldReturnElementRoomsNumberRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/rooms/number/" + room42.getNumber(), Room[].class
+                hostPathWithPort + "/api/rooms/number/" + room42.getNumber(), Room[].class
         );
 
         then(entity.getBody()).isNotEmpty();
@@ -130,7 +130,7 @@ public class RoomControllerTests {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
         ResponseEntity<Room[]> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "/rooms/name", request, Room[].class
+                hostPathWithPort + "/api/rooms/name", request, Room[].class
         );
 
         then(entity.getBody()).isNotEmpty();
