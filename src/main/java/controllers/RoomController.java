@@ -8,7 +8,7 @@ import repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@RequestMapping("/rooms")
+@RequestMapping("/api/rooms")
 public class RoomController {
 
     private final RoomRepository roomRepository;

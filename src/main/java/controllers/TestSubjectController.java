@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import repositories.TestSubjectRepository;
 
 @RestController
+@RequestMapping("/api/subjects")
 public class TestSubjectController {
 
     private final TestSubjectRepository testSubjectRepository;
@@ -16,21 +17,21 @@ public class TestSubjectController {
         this.testSubjectRepository = testSubjectRepository;
     }
 
-    @GetMapping(path = "/subjects", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getAllTestSubjects() {
         return ResponseEntityUtils.
                 getResponseEntityForMultipleResponses(testSubjectRepository.findAll());
     }
 
-    @GetMapping(path = "/subjects/id/{id}", produces = "application/json")
+    @GetMapping(path = "/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
         return ResponseEntityUtils.
                 getResponseEntityForSingleResponse(testSubjectRepository.findById(testSubjectIdToSearch));
     }
 
-    @PostMapping(path = "/subjects/name", produces = "application/json")
+    @PostMapping(path = "/name", produces = "application/json")
     public @ResponseBody
     ResponseEntity<?> getTestSubjectByName(@RequestParam(value = "name") String testSubjectNameToSearch) {
         return ResponseEntityUtils.

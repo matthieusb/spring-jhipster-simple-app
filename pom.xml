@@ -28,8 +28,8 @@
 
     <!-- Project dependencies  -->
     <dependencies>
-        <!-- SpringBoot -->
 
+        <!-- SpringBoot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -62,19 +62,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-swaggerui-version}</version>
         </dependency>
-
 
     </dependencies>
 
@@ -87,7 +80,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
                 <configuration>
-                    <mainClass>io.swagger.sample.Application</mainClass>
+                    <mainClass>config.SpringBootApertureTestingConfiguration</mainClass>
                 </configuration>
                 <executions>
                     <execution>
