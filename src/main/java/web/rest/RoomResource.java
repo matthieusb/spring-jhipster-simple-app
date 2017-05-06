@@ -1,11 +1,14 @@
 package web.rest;
 
 
+import model.Room;
 import web.rest.util.ResponseEntityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -21,9 +24,13 @@ public class RoomResource {
 
     @GetMapping(produces = "application/json")
     public @ResponseBody
-    ResponseEntity<?> getAllRooms() {
-        return ResponseEntityUtils.
-                getResponseEntityForMultipleResponses(roomRepository.findAll());
+    ResponseEntity<List<Room>> getAllRooms() {
+        List<Room> roomsFound = roomRepository.findAll();
+        if (roomsFound.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok().body(roomsFound);
+        }
     }
 
     @GetMapping(path = "/id/{id}", produces = "application/json")

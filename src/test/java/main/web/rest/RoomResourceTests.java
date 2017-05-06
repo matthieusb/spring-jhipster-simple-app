@@ -1,4 +1,4 @@
-package integration.controllerstest;
+package main.web.rest;
 
 
 import config.SpringBootApertureTestingConfiguration;
@@ -16,6 +16,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
 

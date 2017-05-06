@@ -1,4 +1,4 @@
-package integration.controllerstest;
+package main.web.rest;
 
 import config.SpringBootApertureTestingConfiguration;
 import model.Room;
