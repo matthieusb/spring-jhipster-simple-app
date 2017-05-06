@@ -1,19 +1,19 @@
-package controllers;
+package web.rest;
 
-import controllers.utils.ResponseEntityUtils;
+import web.rest.util.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repositories.TestSubjectRepository;
+import repository.TestSubjectRepository;
 
 @RestController
 @RequestMapping("/api/subjects")
-public class TestSubjectController {
+public class TestSubjectResource {
 
     private final TestSubjectRepository testSubjectRepository;
 
     @Autowired
-    public TestSubjectController(TestSubjectRepository testSubjectRepository) {
+    public TestSubjectResource(TestSubjectRepository testSubjectRepository) {
         this.testSubjectRepository = testSubjectRepository;
     }
 

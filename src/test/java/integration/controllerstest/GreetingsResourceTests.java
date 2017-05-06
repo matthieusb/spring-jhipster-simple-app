@@ -22,7 +22,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 @SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
 
-public class GreetingsControllerTests {
+public class GreetingsResourceTests {
 
     @LocalServerPort
     private int port;

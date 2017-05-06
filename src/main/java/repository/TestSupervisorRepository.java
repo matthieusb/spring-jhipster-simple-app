@@ -1,4 +1,4 @@
-package repositories;
+package repository;
 
 import model.TestSupervisor;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -1,20 +1,20 @@
-package controllers;
+package web.rest;
 
 
-import controllers.utils.ResponseEntityUtils;
+import web.rest.util.ResponseEntityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repositories.RoomRepository;
+import repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/rooms")
-public class RoomController {
+public class RoomResource {
 
     private final RoomRepository roomRepository;
 
     @Autowired
-    public RoomController(RoomRepository roomRepository) {
+    public RoomResource(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 

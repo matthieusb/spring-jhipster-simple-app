@@ -1,4 +1,4 @@
-package repositories;
+package repository;
 
 import model.Room;
 import org.springframework.data.mongodb.repository.MongoRepository;

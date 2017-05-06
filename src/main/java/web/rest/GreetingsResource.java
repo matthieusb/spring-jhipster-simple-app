@@ -1,16 +1,13 @@
-package controllers;
+package web.rest;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import model.Greeting;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
-public class GreetingsController {
+public class GreetingsResource {
 
   private static final String template = "Hello, %s";
   private final AtomicLong counter = new AtomicLong();

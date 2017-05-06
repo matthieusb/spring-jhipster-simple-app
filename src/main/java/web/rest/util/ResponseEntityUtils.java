@@ -1,4 +1,4 @@
-package controllers.utils;
+package web.rest.util;
 
 
 import org.springframework.http.HttpStatus;
