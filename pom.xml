@@ -15,14 +15,21 @@
 
     <!-- Properties -->
     <properties>
-        <springfox.version>2.6.1</springfox.version>
-        <springfox.swaggerui.version>2.4.0</springfox.swaggerui.version>
+        <springfox-version>2.6.1</springfox-version>
+        <springfox-swaggerui-version>2.6.1</springfox-swaggerui-version>
+        <spring-version>4.3.2.RELEASE</spring-version>
+        <swagger-core-version>1.5.10</swagger-core-version>
+        <slf4j-version>1.6.3</slf4j-version>
+        <junit-version>4.8.1</junit-version>
+        <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
         <fizzedwatcher.version>1.0.6</fizzedwatcher.version>
     </properties>
 
 
     <!-- Project dependencies  -->
     <dependencies>
+        <!-- SpringBoot -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -50,17 +57,25 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Documentation -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
+            <version>${springfox-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.swaggerui.version}</version>
+            <version>${springfox-swaggerui-version}</version>
         </dependency>
+
+
     </dependencies>
 
     <!-- Project build options and plugins -->
@@ -70,6 +85,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+                    <mainClass>io.swagger.sample.Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Fizzed Watcher plugin  : https://github.com/fizzed/maven-plugins -->

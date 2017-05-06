@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: spring-aperture-simple-api
+    data:
+        mongodb:
+            uri: mongodb://localhost:27017/apiApertureDB
+
+
+server:
+    port: 8080
+    context-path: /api
