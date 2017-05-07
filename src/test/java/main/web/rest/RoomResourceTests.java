@@ -6,137 +6,116 @@ import model.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import repository.RoomRepository;
+import web.rest.RoomResource;
 
-import java.util.List;
-
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"management.port=0"})
-
+@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
 public class RoomResourceTests {
-
-    // -- System variables
-    @LocalServerPort
-    private int port;
-
-    @Value("${local.management.port}")
-    private int mgt;
-
-    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+    @Autowired
+    private RoomRepository roomRepository;
+
+    private MockMvc mockMvc;
 
     // -- Variables used for tests
-    private String hostPathWithPort;
-    private Room room42;
-    private HttpHeaders headersFormUrlEncoded;
+    private Room ROOM_42 = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room");
 
     @Before
     public void setup() {
-        hostPathWithPort = "http://localhost:" + this.port;
-        room42 = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room");
+        MockitoAnnotations.initMocks(this);
 
-        headersFormUrlEncoded = new HttpHeaders();
-        headersFormUrlEncoded.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        RoomResource roomResource = new RoomResource(roomRepository);
+
+        this.mockMvc = MockMvcBuilders.standaloneSetup(roomResource)
+            .setMessageConverters(jacksonMessageConverter)
+            .build();
     }
+
 
 
     // -- HttpStatus codes tests
 
     @Test
     public void shouldReturn200RoomsRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/api/rooms", Room[].class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mockMvc.perform(get("/api/rooms"))
+            .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturn200RoomsIdFoundRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room> entity = testRestTemplate.getForEntity(
-            hostPathWithPort + "/api/rooms/id/5063114bd386d8fadbd6b00a", Room.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mockMvc.perform(get("/api/rooms/id/" + ROOM_42.getId()))
+            .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturn204RoomsIdNotFoundRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room> entity = this.testRestTemplate.getForEntity(
-            hostPathWithPort + "/api/rooms/id/42", Room.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        mockMvc.perform(get("/api/rooms/id/42"))
+            .andExpect(status().isNoContent());
     }
 
     // -- Content returned tests
 
     @Test
     public void shouldReturnElementsAndRoom42RoomsRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/api/rooms", Room[].class
-        );
+        String jsonPathExpression = "$.[?(@.id==\"" + ROOM_42.getId() + "\")]";
 
-        then(entity.getBody()).isNotEmpty();
-        then(entity.getBody()).contains(room42);
+        mockMvc.perform(get("/api/rooms"))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(ROOM_42.getName()))
+            .andExpect(jsonPath(jsonPathExpression + ".number").value(ROOM_42.getNumber()));
     }
 
     @Test
     public void shouldReturnElementRoomsIdRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/api/rooms/id/" + room42.getId(), Room.class
-        );
+        String jsonPathExpression = "$.[?(@.id==\"" + ROOM_42.getId() + "\")]";
 
-        then(entity.getBody()).
-                isEqualToComparingFieldByField(room42);
+        mockMvc.perform(get("/api/rooms/id/" + ROOM_42.getId()))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(ROOM_42.getName()))
+            .andExpect(jsonPath(jsonPathExpression + ".number").value(ROOM_42.getNumber()));
     }
 
     @Test
     public void shouldReturnElementRoomsNumberRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Room[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/api/rooms/number/" + room42.getNumber(), Room[].class
-        );
+        String jsonPathExpression = "$.[?(@.number==\"" + ROOM_42.getNumber() + "\")]";
 
-        then(entity.getBody()).isNotEmpty();
-        then(entity.getBody()).contains(room42);
+        mockMvc.perform(get("/api/rooms/number/" + ROOM_42.getNumber()))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(ROOM_42.getName()))
+            .andExpect(jsonPath(jsonPathExpression + ".id").value(ROOM_42.getId()));
     }
 
     @Test
     public void shouldReturnElementRoomsNameRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        MultiValueMap<String, String> parametersToSend = new LinkedMultiValueMap<>();
-        parametersToSend.add("name", room42.getName());
+        String jsonPathExpression = "$.[?(@.name==\"" + ROOM_42.getName() + "\")]";
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
-        ResponseEntity<Room[]> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "/api/rooms/name", request, Room[].class
-        );
-
-        then(entity.getBody()).isNotEmpty();
-        then(entity.getBody()).contains(room42);
+        mockMvc.perform(post("/api/rooms/name").param("name", ROOM_42.getName()))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(ROOM_42.getName()))
+            .andExpect(jsonPath(jsonPathExpression + ".id").value(ROOM_42.getId()));
     }
 
 }

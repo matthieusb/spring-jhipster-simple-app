@@ -3,10 +3,11 @@ package web.rest;
 import java.util.concurrent.atomic.AtomicLong;
 
 import model.Greeting;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api", produces = "application/json")
+@RequestMapping(value = "/api", produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class GreetingsResource {
 
   private static final String template = "Hello, %s";
