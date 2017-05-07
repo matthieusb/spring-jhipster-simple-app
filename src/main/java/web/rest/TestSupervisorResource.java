@@ -1,13 +1,14 @@
 package web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.TestSupervisorRepository;
 import web.rest.util.ResponseEntityUtils;
 
 @RestController
-@RequestMapping("/api/supervisors")
+@RequestMapping(value = "/api/supervisors", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
 
     private final TestSupervisorRepository testSupervisorRepository;
