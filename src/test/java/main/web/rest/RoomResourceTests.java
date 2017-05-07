@@ -46,8 +46,6 @@ public class RoomResourceTests {
             .build();
     }
 
-
-
     // -- HttpStatus codes tests
 
     @Test

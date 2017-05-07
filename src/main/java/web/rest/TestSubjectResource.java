@@ -1,14 +1,14 @@
 package web.rest;
 
-import web.rest.util.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.TestSubjectRepository;
+import web.rest.util.ResponseEntityUtils;
 
 @RestController
 @RequestMapping("/api/subjects")
-public class TestSubjectResource {
+public class TestSubjectResource {//TODO REFACTO (See RoomResource)
 
     private final TestSubjectRepository testSubjectRepository;
 

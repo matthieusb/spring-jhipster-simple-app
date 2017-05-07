@@ -1,14 +1,14 @@
 package web.rest;
 
-import web.rest.util.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.TestSupervisorRepository;
+import web.rest.util.ResponseEntityUtils;
 
 @RestController
 @RequestMapping("/api/supervisors")
-public class TestSupervisorResource {
+public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
 
     private final TestSupervisorRepository testSupervisorRepository;
 

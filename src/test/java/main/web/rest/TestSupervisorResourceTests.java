@@ -5,129 +5,93 @@ import model.TestSupervisor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import repository.TestSupervisorRepository;
+import web.rest.TestSupervisorResource;
 
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"management.port=0"})
-
+@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
 public class TestSupervisorResourceTests {
-
-    // -- System variables
-    @LocalServerPort
-    private int port;
-
-    @Value("${local.management.port}")
-    private int mgt;
-
-    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+    @Autowired
+    private TestSupervisorRepository testSupervisorRepository;
+
+    private MockMvc mockMvc;
 
     // -- Variables used for tests
-    private String hostPathWithPort;
-    private TestSupervisor supervisorGlados;
-    private HttpHeaders headersFormUrlEncoded;
+    private TestSupervisor SUPERVISOR_GLADOS = new TestSupervisor("5063114bd386d8fadbd6b004", "glados@aperture.fr", "caroline");
 
     @Before
     public void setup() {
-        this.hostPathWithPort = "http://localhost:" + this.port + "/api";
-        supervisorGlados = new TestSupervisor("5063114bd386d8fadbd6b004", "glados@aperture.fr", "caroline");
-
-        headersFormUrlEncoded = new HttpHeaders();
-        headersFormUrlEncoded.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MockitoAnnotations.initMocks(this);
+        TestSupervisorResource testSupervisorResource = new TestSupervisorResource(testSupervisorRepository);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(testSupervisorResource)
+            .setMessageConverters(jacksonMessageConverter)
+            .build();
     }
 
     // -- HttpStatus codes tests
 
     @Test
     public void shouldReturn200SupervisorsRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<TestSupervisor[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/supervisors", TestSupervisor[].class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mockMvc.perform(get("/api/supervisors"))
+            .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturn200SupervisorIdFoundRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<TestSupervisor> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/supervisors/id/" + supervisorGlados.getId(), TestSupervisor.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mockMvc.perform(get("/api/supervisors/id/" + SUPERVISOR_GLADOS.getId()))
+            .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturn204SupervisorIdNotFoundRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<TestSupervisor> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/supervisors/id/42", TestSupervisor.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        mockMvc.perform(get("/api/supervisors/id/42"))
+            .andExpect(status().isNoContent());
     }
 
     @Test
     public void shouldReturn204SupervisorIncorrectLoginRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        MultiValueMap<String, String> parametersToSend = new LinkedMultiValueMap<>();
-        parametersToSend.add("login", "wronglogin");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
-
-        ResponseEntity<TestSupervisor> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "/supervisors/login", request, TestSupervisor.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        mockMvc.perform(post("/api/supervisors/login").param("login", "wronglogin"))
+            .andExpect(status().isNoContent());
     }
 
     // -- Content returned tests
 
     @Test
     public void shouldContainElementsAndGladosSupervisorAllSupervisorsRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<TestSupervisor[]> entity = this.testRestTemplate.getForEntity(
-                hostPathWithPort + "/supervisors", TestSupervisor[].class
-        );
+        String jsonPathExpression = "$.[?(@.id==\"" + SUPERVISOR_GLADOS.getId() + "\")]";
 
-        then(entity.getBody()).isNotEmpty();
-        then(entity.getBody()).contains(supervisorGlados);
+        mockMvc.perform(get("/api/supervisors"))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".login").value(SUPERVISOR_GLADOS.getLogin()))
+            .andExpect(jsonPath(jsonPathExpression + ".pass").value(SUPERVISOR_GLADOS.getPass()));
     }
 
     @Test
     public void shouldReturnElementSupervisorLoginRoute() throws Exception {
-        @SuppressWarnings("rawtypes")
+        String jsonPathExpression = "$.[?(@.login==\"" + SUPERVISOR_GLADOS.getLogin() + "\")]";
 
-        MultiValueMap<String, String> parametersToSend = new LinkedMultiValueMap<>();
-        parametersToSend.add("login", supervisorGlados.getLogin());
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parametersToSend, this.headersFormUrlEncoded);
-        ResponseEntity<TestSupervisor> entity = this.testRestTemplate.postForEntity(
-                hostPathWithPort + "/supervisors/login", request, TestSupervisor.class
-        );
-
-        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        then(entity.getBody()).isEqualToComparingFieldByField(supervisorGlados);
+        mockMvc.perform(post("/api/supervisors/login").param("login", SUPERVISOR_GLADOS.getLogin()))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
+            .andExpect(jsonPath(jsonPathExpression + ".id").value(SUPERVISOR_GLADOS.getId()))
+            .andExpect(jsonPath(jsonPathExpression + ".pass").value(SUPERVISOR_GLADOS.getPass()));
     }
-
-
 }
