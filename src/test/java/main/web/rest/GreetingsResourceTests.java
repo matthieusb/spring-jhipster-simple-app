@@ -1,7 +1,6 @@
 package main.web.rest;
 
 import config.SpringBootApertureTestingConfiguration;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,27 +18,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import web.rest.GreetingsResource;
 
-import java.util.Map;
-
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
 
 public class GreetingsResourceTests {
-
-    @LocalServerPort
-    private int port;
-
-    @Value("${local.management.port}")
-    private int mgt;
-
-    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
-    @Autowired
-    private TestRestTemplate testRestTemplate;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -66,18 +51,13 @@ public class GreetingsResourceTests {
 
     @Test
     public void shouldReturnAValidGreetingJsonWithSimpleHelloWorld() throws Exception {
-//        mockMvc.perform(get("/api/greeting"))
-//            .andExpect(status().isOk())
-//            .andExpect();
-
-
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-            "http://localhost:" + this.port + "/api/greeting", Map.class
-        );
-
-        Map responseBody = entity.getBody();
-
-        then(responseBody.containsKey("id") && responseBody.containsKey("content"));
+        mockMvc.perform(get("/api/greeting"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("id").exists())
+            .andExpect(jsonPath("content").exists())
+            .andExpect(jsonPath("id").isNumber())
+            .andExpect(jsonPath("content").isString())
+            .andExpect(jsonPath("content").value("Hello, Stranger"));
     }
 }
