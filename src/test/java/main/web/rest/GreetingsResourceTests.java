@@ -22,9 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"management.port=0"})
-
+@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
 public class GreetingsResourceTests {
 
     @Autowired

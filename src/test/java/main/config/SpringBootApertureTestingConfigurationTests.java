@@ -19,6 +19,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import web.rest.GreetingsResource;
 
 import java.util.Arrays;
 import java.util.Map;
