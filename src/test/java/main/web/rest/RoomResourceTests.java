@@ -155,6 +155,7 @@ public class RoomResourceTests {
     @Test
     public void should200AndReturnDeletedRoomWithIdDeleteRoute() throws Exception {
         String jsonPathExpression = "$.[?(@.name==\"" + NEW_ROOM.getName() + "\")]";
+
         Room roomToDelete = roomRepository.save(NEW_ROOM);
         int databaseSizeBeforeDelete = roomRepository.findAll().size();
 
@@ -162,7 +163,9 @@ public class RoomResourceTests {
             fail("The NEW Room to delete was not found by number : " + NEW_ROOM);
         } else {
             mockMvc.perform(delete("/api/rooms/delete/" + roomToDelete.getId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
         }
 
         int databaseSizeAfterDelete = roomRepository.findAll().size();
