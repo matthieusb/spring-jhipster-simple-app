@@ -119,6 +119,7 @@ public class RoomResourceTests {
     }
 
     // -- Mutability handling operations tests (Create/Delete/Update)
+
     @Test
     public void should200AndReturnNewRoomWithIdCreateRoute() throws Exception {
         String jsonPathExpression = "$.[?(@.name==\"" + NEW_ROOM.getName() + "\")]";

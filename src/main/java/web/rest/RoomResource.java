@@ -23,7 +23,7 @@ public class RoomResource {
     }
 
 
-    @GetMapping()
+    @GetMapping
     public @ResponseBody
     ResponseEntity<List<Room>> getAllRooms() {
         List<Room> roomsFound = roomRepository.findAll();
@@ -36,7 +36,7 @@ public class RoomResource {
         }
     }
 
-    @GetMapping(path = "/id/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @GetMapping(path = "/id/{id}")
     public @ResponseBody
     ResponseEntity<Room> getRoomById(@PathVariable(value = "id") String roomIdToSearch) {
         Room room = roomRepository.findById(roomIdToSearch);
