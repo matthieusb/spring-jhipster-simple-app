@@ -1,6 +1,8 @@
 package web.rest;
 
 import model.TestSubject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping(value = "/api/subjects", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSubjectResource {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(TestSubjectResource.class);
+
     private final RoomRepository roomRepository;
 
     private final TestSubjectRepository testSubjectRepository;
@@ -28,6 +32,8 @@ public class TestSubjectResource {
     @GetMapping(produces = "application/json")
     public @ResponseBody
     ResponseEntity<List<TestSubject>> getAllTestSubjects() {
+        LOGGER.info("REST request to getAllTestSubjects()");
+
         List<TestSubject> testSubjects = testSubjectRepository.findAll();
         if (testSubjects.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -41,6 +47,8 @@ public class TestSubjectResource {
     @GetMapping(path = "/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<TestSubject> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
+        LOGGER.info("REST request to getTestSubjectById() : " + testSubjectIdToSearch);
+
         TestSubject testSubject = testSubjectRepository.findById(testSubjectIdToSearch);
         if (testSubject == null) {
             return ResponseEntity.noContent().build();
@@ -54,6 +62,8 @@ public class TestSubjectResource {
     @PostMapping(path = "/name", produces = "application/json")
     public @ResponseBody
     ResponseEntity<TestSubject> getTestSubjectByName(@RequestParam(value = "name") String testSubjectNameToSearch) {
+        LOGGER.info("REST request to getTestSubjectByName() : " + testSubjectNameToSearch);
+
         TestSubject testSubject = testSubjectRepository.findByName(testSubjectNameToSearch);
         if (testSubject == null) {
             return ResponseEntity.noContent().build();
@@ -67,6 +77,8 @@ public class TestSubjectResource {
     @PostMapping(path = "/create")
     public @ResponseBody
     ResponseEntity<TestSubject> createTestSubject(@RequestBody TestSubject testSubjectToCreate) {
+        LOGGER.info("REST request to createTestSubject() : " + testSubjectToCreate);
+
         if (testSubjectToCreate != null) {
             testSubjectToCreate.setId(null);
             if (testSubjectRepository.findByName(testSubjectToCreate.getName()) != null) {
@@ -95,6 +107,8 @@ public class TestSubjectResource {
     @PutMapping(path = "/update")
     public @ResponseBody
     ResponseEntity<TestSubject> updateTestSubject(@RequestBody TestSubject testSubjectToUpdate) {
+        LOGGER.info("REST request to updateTestSubject() : " + testSubjectToUpdate);
+
         if (testSubjectToUpdate != null) {
             if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
                 return ResponseEntity.badRequest().body(null);
@@ -130,6 +144,8 @@ public class TestSubjectResource {
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     ResponseEntity<TestSubject> deleteTestSubject(@PathVariable(value = "id") String idTestSubjectToDelete) {
+        LOGGER.info("REST request to deleteTestSubject() : " + idTestSubjectToDelete);
+
         TestSubject testSubjectToDelete = testSubjectRepository.findById(idTestSubjectToDelete);
 
         if (testSubjectToDelete == null) {

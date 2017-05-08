@@ -1,6 +1,8 @@
 package web.rest;
 
 import model.TestSupervisor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import java.util.List;
 @RequestMapping(value = "/api/supervisors", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSupervisorResource {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(TestSupervisorResource.class);
+
     private final TestSupervisorRepository testSupervisorRepository;
 
     @Autowired
@@ -24,6 +28,8 @@ public class TestSupervisorResource {
     @GetMapping
     public @ResponseBody
     ResponseEntity<List<TestSupervisor>> getAllTestSupervisors() {
+        LOGGER.info("REST request to getAllTestSupervisors()");
+
         List<TestSupervisor> testSupervisors = testSupervisorRepository.findAll();
         if (testSupervisors.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -37,6 +43,8 @@ public class TestSupervisorResource {
     @GetMapping(path = "/id/{id}")
     public @ResponseBody
     ResponseEntity<TestSupervisor> getTestSupervisorById(@PathVariable(value = "id") String testSupervisorIdToSearch) {
+        LOGGER.info("REST request to getTestSupervisorById() : " + testSupervisorIdToSearch);
+
         TestSupervisor testSupervisor = testSupervisorRepository.findById(testSupervisorIdToSearch);
         if (testSupervisor == null) {
             return ResponseEntity.noContent().build();
@@ -51,6 +59,8 @@ public class TestSupervisorResource {
     @PostMapping(path = "/login")
     public @ResponseBody
     ResponseEntity<TestSupervisor> getTestSupervisorByLogin(@RequestParam(value = "login") String testSupervisorLoginToSearch) {
+        LOGGER.info("REST request to getTestSupervisorByLogin() : " + testSupervisorLoginToSearch);
+
         TestSupervisor testSupervisor = testSupervisorRepository.findByLogin(testSupervisorLoginToSearch);
         if (testSupervisor == null) {
             return ResponseEntity.noContent().build();
@@ -64,6 +74,7 @@ public class TestSupervisorResource {
     @PostMapping(path = "/create")
     public @ResponseBody
     ResponseEntity<TestSupervisor> createTestSupervisor(@RequestBody TestSupervisor testSupervisorToCreate) {
+        LOGGER.info("REST request to createTestSupervisor() : " + testSupervisorToCreate);
 
         if (testSupervisorToCreate != null) {
             testSupervisorToCreate.setId(null);
@@ -83,6 +94,7 @@ public class TestSupervisorResource {
     @PutMapping(path = "/update")
     public @ResponseBody
     ResponseEntity<TestSupervisor> updateTestSupervisor(@RequestBody TestSupervisor testSupervisorToUpdate) {
+        LOGGER.info("REST request to updateTestSupervisor() : " + testSupervisorToUpdate);
 
         if (testSupervisorToUpdate != null) {
             if (testSupervisorRepository.findById(testSupervisorToUpdate.getId()) == null) {
@@ -107,6 +119,8 @@ public class TestSupervisorResource {
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     ResponseEntity<TestSupervisor> deleteTestSupervisor(@PathVariable(value = "id") String idTestSupervisorToDelete) {
+        LOGGER.info("REST request to deleteTestSupervisor() : " + idTestSupervisorToDelete);
+
         TestSupervisor testSupervisorToDelete = testSupervisorRepository.findById(idTestSupervisorToDelete);
 
         if (testSupervisorToDelete == null) {
