@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/supervisors", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
+public class TestSupervisorResource {
 
     private final TestSupervisorRepository testSupervisorRepository;
 
@@ -63,17 +63,41 @@ public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
 
     @PostMapping(path = "/create")
     public @ResponseBody
-    ResponseEntity<TestSupervisor> createTestSupervisor(@RequestBody TestSupervisor testSupervisor) {
+    ResponseEntity<TestSupervisor> createTestSupervisor(@RequestBody TestSupervisor testSupervisorToCreate) {
 
-        if (testSupervisor != null) {
-            testSupervisor.setId(null);
-            if (testSupervisorRepository.findByLogin(testSupervisor.getLogin()) != null) {
+        if (testSupervisorToCreate != null) {
+            testSupervisorToCreate.setId(null);
+            if (testSupervisorRepository.findByLogin(testSupervisorToCreate.getLogin()) != null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                TestSupervisor testSupervisorOutput = testSupervisorRepository.save(testSupervisor);
+                TestSupervisor testSupervisorOutput = testSupervisorRepository.save(testSupervisorToCreate);
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.getStandardHeaders())
                     .body(testSupervisorOutput);
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(path = "/update")
+    public @ResponseBody
+    ResponseEntity<TestSupervisor> updateTestSupervisor(@RequestBody TestSupervisor testSupervisorToUpdate) {
+
+        if (testSupervisorToUpdate != null) {
+            if (testSupervisorRepository.findById(testSupervisorToUpdate.getId()) == null) {
+                return ResponseEntity.badRequest().body(null);
+            } else {
+                TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository.findByLogin(testSupervisorToUpdate.getLogin());
+
+                if (testSupervisorFoundByLogin == null || testSupervisorFoundByLogin.getId().equals(testSupervisorToUpdate.getId())) {
+                    TestSupervisor testSupervisorOutput = testSupervisorRepository.save(testSupervisorToUpdate);
+                    return ResponseEntity.ok()
+                        .headers(HeaderUtil.getStandardHeaders())
+                        .body(testSupervisorOutput);
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
             }
         } else {
             return ResponseEntity.badRequest().build();

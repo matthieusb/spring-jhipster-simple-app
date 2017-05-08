@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/subjects", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-public class TestSubjectResource {//TODO REFACTO (See RoomResource)
+public class TestSubjectResource {
 
     private final RoomRepository roomRepository;
 
@@ -73,7 +73,11 @@ public class TestSubjectResource {//TODO REFACTO (See RoomResource)
                 return ResponseEntity.badRequest().body(null);
             } else {
                 boolean allRoomsProvidedExist = testSubjectToCreate.getRooms().stream()
-                    .allMatch(subjectRoom -> roomRepository.findById(subjectRoom.getId()) != null);
+                    .allMatch(subjectRoom ->
+                        roomRepository.findById(subjectRoom.getId()) != null
+                            && !roomRepository.findByName(subjectRoom.getName()).isEmpty()
+                            && roomRepository.findByNumber(subjectRoom.getNumber()) != null
+                    );
                 if (allRoomsProvidedExist) {
                     TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToCreate);
                     return ResponseEntity.ok()
@@ -87,6 +91,41 @@ public class TestSubjectResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @PutMapping(path = "/update")
+    public @ResponseBody
+    ResponseEntity<TestSubject> updateTestSubject(@RequestBody TestSubject testSubjectToUpdate) {
+        if (testSubjectToUpdate != null) {
+            if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
+                return ResponseEntity.badRequest().body(null);
+            } else {
+                boolean allRoomsProvidedExist = testSubjectToUpdate.getRooms().stream()
+                    .allMatch(subjectRoom ->
+                        roomRepository.findById(subjectRoom.getId()) != null
+                            && !roomRepository.findByName(subjectRoom.getName()).isEmpty()
+                            && roomRepository.findByNumber(subjectRoom.getNumber()) != null
+                    );
+
+                if (allRoomsProvidedExist) {
+                    TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
+                    if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
+                        TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToUpdate);
+                        return ResponseEntity.ok()
+                            .headers(HeaderUtil.getStandardHeaders())
+                            .body(testSubjectOutput);
+                    } else {
+                        return ResponseEntity.badRequest().body(null);
+                    }
+                } else {
+                    return ResponseEntity.badRequest().body(null);
+                }
+            }
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
 
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody

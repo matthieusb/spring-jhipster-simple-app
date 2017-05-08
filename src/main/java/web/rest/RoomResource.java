@@ -95,6 +95,28 @@ public class RoomResource {
         }
     }
 
+    @PutMapping(path = "/update")
+    public @ResponseBody
+    ResponseEntity<Room> updateRoom(@RequestBody Room roomToUpdate) {
+        if (roomToUpdate != null) {
+            if (roomRepository.findById(roomToUpdate.getId()) == null) {
+                return ResponseEntity.badRequest().body(null);
+            } else {
+                Room roomFoundByNumber = roomRepository.findByNumber(roomToUpdate.getNumber());
+                if (roomFoundByNumber.getId().equals(roomToUpdate.getId())) {
+                    Room roomOutput = roomRepository.save(roomToUpdate);
+                    return ResponseEntity.ok()
+                        .headers(HeaderUtil.getStandardHeaders())
+                        .body(roomOutput);
+                } else {
+                    return ResponseEntity.badRequest().body(null);
+                }
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     ResponseEntity<Room> deleteRoom(@PathVariable(value = "id") String idRoomToDelete) {
@@ -109,4 +131,6 @@ public class RoomResource {
                 .body(roomToDelete);
         }
     }
+
+
 }
