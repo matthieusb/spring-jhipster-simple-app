@@ -35,6 +35,8 @@ public class RoomResourceTests {
 
     // -- Variables used for tests
     private Room ROOM_42 = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room");
+    private Room ROOM_42_UPDATED = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room updated");
+    private Room ROOM_WRONG_UPDATED = new Room("5063114bd386d8fadb", 44, "WRONG ROOM");
     private Room NEW_ROOM = new Room("0", 8888, "ADD ROOM TEST");
 
     @Before
@@ -151,6 +153,30 @@ public class RoomResourceTests {
 
         int databaseSizeAfterCreate = roomRepository.findAll().size();
         assertThat(databaseSizeAfterCreate == databaseSizeBeforeCreate);
+    }
+
+    @Test
+    public void should200AndReturnUpdatedRoom() throws Exception {
+        String jsonPathExpression = "$.[?(@.name==\"" + ROOM_42_UPDATED.getName() + "\")]";
+
+        mockMvc.perform(put("/api/rooms/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(ROOM_42_UPDATED))
+        )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
+
+        roomRepository.save(ROOM_42); // Put back to default
+    }
+
+    @Test
+    public void should400UpdateInexistantRoom() throws Exception {
+        mockMvc.perform(put("/api/rooms/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(ROOM_WRONG_UPDATED))
+        )
+            .andExpect(status().isBadRequest());
     }
 
     @Test
