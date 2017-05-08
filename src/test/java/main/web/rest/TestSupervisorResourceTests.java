@@ -34,6 +34,8 @@ public class TestSupervisorResourceTests {
 
     // -- Variables used for tests
     private TestSupervisor SUPERVISOR_GLADOS = new TestSupervisor("5063114bd386d8fadbd6b004", "glados@aperture.fr", "caroline");
+    private TestSupervisor SUPERVISOR_GLADOS_UPDATED = new TestSupervisor("5063114bd386d8fadbd6b004", "glados_updated@aperture.fr", "caroline");
+    private TestSupervisor SUPERVISOR_WRONG_UPDATED = new TestSupervisor("5063114bd386d8fadbd6b", "WRONG UPDATED LOGIN", "WRONG UPDATED PASS");
     private TestSupervisor NEW_SUPERVISOR = new TestSupervisor("0", "supervisortestlogin", "supervisortestpass");
 
     @Before
@@ -130,6 +132,30 @@ public class TestSupervisorResourceTests {
 
         int databaseSizeAfterCreate = testSupervisorRepository.findAll().size();
         assertThat(databaseSizeAfterCreate == databaseSizeBeforeCreate);
+    }
+
+    @Test
+    public void should200AndReturnUpdatedTestSupervisor() throws Exception {
+        String jsonPathExpression = "$.[?(@.login==\"" + SUPERVISOR_GLADOS_UPDATED.getLogin() + "\")]";
+
+        mockMvc.perform(put("/api/supervisors/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(SUPERVISOR_GLADOS_UPDATED))
+        )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
+
+        testSupervisorRepository.save(SUPERVISOR_GLADOS); // Put back to default
+    }
+
+    @Test
+    public void should400UpdateInexistantTestSupervisor() throws Exception {
+        mockMvc.perform(put("/api/supervisors/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(SUPERVISOR_WRONG_UPDATED))
+        )
+            .andExpect(status().isBadRequest());
     }
 
     @Test

@@ -41,8 +41,7 @@ public class TestSubjectResourceTests {
     private MockMvc mockMvc;
 
     // -- Variables used for tests
-    private TestSubject SUBJECT_CAROLINE;
-    private TestSubject SUBJECT_NEW;
+    private TestSubject SUBJECT_CAROLINE, SUBJECT_CAROLINE_UPDATED, SUBJECT_WRONG_UPDATED, SUBJECT_NEW;
 
     @Before
     public void setup() {
@@ -58,6 +57,8 @@ public class TestSubjectResourceTests {
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00d", 1, "Initiation room"));
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00c", 36, "6x6"));
         SUBJECT_CAROLINE = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline", carolineRooms);
+        SUBJECT_CAROLINE_UPDATED = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline updated", carolineRooms);
+        SUBJECT_WRONG_UPDATED = new TestSubject("5063114bd386d8fadbd6", "Caroline updated", carolineRooms);
 
         SUBJECT_NEW = new TestSubject("0", "TestSubjectTest", carolineRooms);
     }
@@ -148,6 +149,30 @@ public class TestSubjectResourceTests {
 
         int databaseSizeAfterCreate = testSubjectRepository.findAll().size();
         assertThat(databaseSizeAfterCreate == databaseSizeBeforeCreate);
+    }
+
+    @Test
+    public void should200AndReturnUpdatedTestSupervisor() throws Exception {
+        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_CAROLINE_UPDATED.getName() + "\")]";
+
+        mockMvc.perform(put("/api/subjects/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_CAROLINE_UPDATED))
+        )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
+
+        testSubjectRepository.save(SUBJECT_CAROLINE); // Put back to default
+    }
+
+    @Test
+    public void should400UpdateInexistantTestSupervisor() throws Exception {
+        mockMvc.perform(put("/api/subjects/update")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_WRONG_UPDATED))
+        )
+            .andExpect(status().isBadRequest());
     }
 
     @Test
