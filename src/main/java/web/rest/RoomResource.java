@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.RoomRepository;
-import web.rest.util.ResponseEntityUtils;
+import web.rest.util.HeaderUtil;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class RoomResource {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(roomsFound);
         }
     }
@@ -44,7 +44,7 @@ public class RoomResource {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(room);
         }
     }
@@ -52,14 +52,14 @@ public class RoomResource {
     @GetMapping(path = "/number/{number}")
     public @ResponseBody
     ResponseEntity<Room> getRoomByNumber(@PathVariable(value = "number") Integer roomNumberToSearch) {
-        List<Room> rooms = roomRepository.findByNumber(roomNumberToSearch);
+        Room room = roomRepository.findByNumber(roomNumberToSearch);
         //TODO Add error case when several rooms ?
-        if (rooms.isEmpty()) {
+        if (room == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
-                .body(rooms.get(0));
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(room);
         }
     }
 
@@ -72,8 +72,41 @@ public class RoomResource {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(rooms.get(0));
+        }
+    }
+
+    @PostMapping(path = "/create")
+    public @ResponseBody
+    ResponseEntity<Room> createRoom(@RequestBody Room roomToCreate) {
+        if (roomToCreate != null) {
+            roomToCreate.setId(null);
+            if (roomRepository.findByNumber(roomToCreate.getNumber()) != null) {
+                return ResponseEntity.badRequest().body(null);
+            } else {
+                Room roomOutput = roomRepository.save(roomToCreate);
+                return ResponseEntity.ok()
+                    .headers(HeaderUtil.getStandardHeaders())
+                    .body(roomOutput);
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public @ResponseBody
+    ResponseEntity<Room> deleteRoom(@PathVariable(value = "id") String idRoomToDelete) {
+        Room roomToDelete = roomRepository.findById(idRoomToDelete);
+
+        if (roomToDelete == null) {
+            return ResponseEntity.badRequest().body(null);
+        } else {
+            roomRepository.delete(roomToDelete);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(roomToDelete);
         }
     }
 }

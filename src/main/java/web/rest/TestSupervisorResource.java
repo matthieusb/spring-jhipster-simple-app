@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.TestSupervisorRepository;
-import web.rest.util.ResponseEntityUtils;
+import web.rest.util.HeaderUtil;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSupervisors);
         }
     }
@@ -42,7 +42,7 @@ public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSupervisor);
         }
 
@@ -56,7 +56,7 @@ public class TestSupervisorResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSupervisor);
         }
     }

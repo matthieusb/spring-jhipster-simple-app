@@ -6,9 +6,20 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 
+@SuppressWarnings("unchecked")
 public interface RoomRepository extends MongoRepository<Room, String> {
     Room findById(String id);
-    List<Room> findByNumber(Integer number);
+
+    Room findByNumber(Integer number);
+
     List<Room> findByName(String name);
+
+    @Override
     List<Room> findAll();
+
+    @Override
+    Room save(Room room);
+
+    @Override
+    void delete(Room room);
 }

@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.TestSubjectRepository;
-import web.rest.util.ResponseEntityUtils;
+import web.rest.util.HeaderUtil;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class TestSubjectResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSubjects);
         }
     }
@@ -42,7 +42,7 @@ public class TestSubjectResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSubject);
         }
     }
@@ -55,7 +55,7 @@ public class TestSubjectResource {//TODO REFACTO (See RoomResource)
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok()
-                .headers(ResponseEntityUtils.getStandardHeaders())
+                .headers(HeaderUtil.getStandardHeaders())
                 .body(testSubjects.get(0));
         }
     }

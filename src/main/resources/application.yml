@@ -4,7 +4,9 @@ spring:
     data:
         mongodb:
             uri: mongodb://localhost:27017/apiApertureDB
-
-
 server:
     port: 8080
+
+mongeez:
+  enabled: false
+

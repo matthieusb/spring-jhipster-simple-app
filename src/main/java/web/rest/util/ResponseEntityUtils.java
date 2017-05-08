@@ -1,7 +1,6 @@
 package web.rest.util;
 
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,11 +22,5 @@ public class ResponseEntityUtils {
         } else {
             return new ResponseEntity<>(listToReturn, HttpStatus.OK);
         }
-    }
-
-    public static HttpHeaders getStandardHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=utf-8");
-        return headers;
     }
 }

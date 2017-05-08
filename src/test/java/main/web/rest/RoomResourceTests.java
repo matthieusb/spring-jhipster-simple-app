@@ -17,8 +17,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import repository.RoomRepository;
 import web.rest.RoomResource;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +35,7 @@ public class RoomResourceTests {
 
     // -- Variables used for tests
     private Room ROOM_42 = new Room("5063114bd386d8fadbd6b00a", 42, "Answer to life room");
+    private Room NEW_ROOM = new Room("0", 8888, "ADD ROOM TEST");
 
     @Before
     public void setup() {
@@ -114,6 +116,68 @@ public class RoomResourceTests {
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
             .andExpect(jsonPath(jsonPathExpression + ".name").value(ROOM_42.getName()))
             .andExpect(jsonPath(jsonPathExpression + ".id").value(ROOM_42.getId()));
+    }
+
+    // -- Mutability handling operations tests (Create/Delete/Update)
+    @Test
+    public void should200AndReturnNewRoomWithIdCreateRoute() throws Exception {
+        String jsonPathExpression = "$.[?(@.name==\"" + NEW_ROOM.getName() + "\")]";
+        int databaseSizeBeforeCreate = roomRepository.findAll().size();
+
+        mockMvc.perform(post("/api/rooms/create")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(NEW_ROOM))
+        )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
+
+        int databaseSizeAfterCreate = roomRepository.findAll().size();
+        assertThat(databaseSizeAfterCreate > databaseSizeBeforeCreate);
+
+        roomRepository.delete(roomRepository.findByNumber(NEW_ROOM.getNumber()));
+    }
+
+    @Test
+    public void should400NewRoomWithExistantNumberCreateRoute() throws Exception {
+        int databaseSizeBeforeCreate = roomRepository.findAll().size();
+
+        mockMvc.perform(post("/api/rooms/create")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(ROOM_42))
+        )
+            .andExpect(status().isBadRequest());
+
+        int databaseSizeAfterCreate = roomRepository.findAll().size();
+        assertThat(databaseSizeAfterCreate == databaseSizeBeforeCreate);
+    }
+
+    @Test
+    public void should200AndReturnDeletedRoomWithIdDeleteRoute() throws Exception {
+        String jsonPathExpression = "$.[?(@.name==\"" + NEW_ROOM.getName() + "\")]";
+        Room roomToDelete = roomRepository.save(NEW_ROOM);
+        int databaseSizeBeforeDelete = roomRepository.findAll().size();
+
+        if (roomToDelete == null) {
+            fail("The NEW Room to delete was not found by number : " + NEW_ROOM);
+        } else {
+            mockMvc.perform(delete("/api/rooms/delete/" + roomToDelete.getId()))
+                .andExpect(status().isOk());
+        }
+
+        int databaseSizeAfterDelete = roomRepository.findAll().size();
+        assertThat(databaseSizeAfterDelete < databaseSizeBeforeDelete);
+    }
+
+    @Test
+    public void should400DeleteInexistantRoomDeleteRoute() throws Exception {
+        int databaseSizeBeforeDelete = roomRepository.findAll().size();
+
+        mockMvc.perform(delete("/api/rooms/delete/perlimpinpin"))
+            .andExpect(status().isBadRequest());
+
+        int databaseSizeAfterDelete = roomRepository.findAll().size();
+        assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete);
     }
 
 }
