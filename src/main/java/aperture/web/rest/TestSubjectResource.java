@@ -3,7 +3,7 @@ package aperture.web.rest;
 import aperture.model.TestSubject;
 import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
-import aperture.service.TestSubjectService;
+import aperture.service.impl.TestSubjectServiceImpl;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +24,13 @@ public class TestSubjectResource {
 
     private final TestSubjectRepository testSubjectRepository;
 
-    private final TestSubjectService testSubjectService;
+    private final TestSubjectServiceImpl testSubjectServiceImpl;
 
     @Autowired
-    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectService testSubjectService) {
+    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectServiceImpl testSubjectServiceImpl) {
         this.testSubjectRepository = testSubjectRepository;
         this.roomRepository = roomRepository;
-        this.testSubjectService = testSubjectService;
+        this.testSubjectServiceImpl = testSubjectServiceImpl;
     }
 
     @GetMapping(produces = "application/json")
@@ -88,7 +88,7 @@ public class TestSubjectResource {
             if (testSubjectRepository.findByName(testSubjectToCreate.getName()) != null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                if (testSubjectService.allRoomsProvidedExist(testSubjectToCreate)) {
+                if (testSubjectServiceImpl.allRoomsProvidedExist(testSubjectToCreate)) {
                     TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToCreate);
                     return ResponseEntity.ok()
                         .headers(HeaderUtil.getStandardHeaders())
@@ -111,7 +111,7 @@ public class TestSubjectResource {
             if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                if (testSubjectService.allRoomsProvidedExist(testSubjectToUpdate)) {
+                if (testSubjectServiceImpl.allRoomsProvidedExist(testSubjectToUpdate)) {
                     TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
                     if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
                         TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToUpdate);

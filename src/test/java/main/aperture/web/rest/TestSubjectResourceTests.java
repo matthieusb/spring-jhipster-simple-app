@@ -5,7 +5,7 @@ import aperture.model.Room;
 import aperture.model.TestSubject;
 import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
-import aperture.service.TestSubjectService;
+import aperture.service.impl.TestSubjectServiceImpl;
 import aperture.web.rest.TestSubjectResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class TestSubjectResourceTests {
     private TestSubjectRepository testSubjectRepository;
 
     @Autowired
-    private TestSubjectService testSubjectService;
+    private TestSubjectServiceImpl testSubjectServiceImpl;
 
     private MockMvc mockMvc;
 
@@ -51,7 +51,7 @@ public class TestSubjectResourceTests {
     public void setup() {
         // -- Mock Mvc config
         MockitoAnnotations.initMocks(this);
-        TestSubjectResource testSubjectResource = new TestSubjectResource(testSubjectRepository, roomRepository, testSubjectService);
+        TestSubjectResource testSubjectResource = new TestSubjectResource(testSubjectRepository, roomRepository, testSubjectServiceImpl);
         this.mockMvc = MockMvcBuilders.standaloneSetup(testSubjectResource)
             .setMessageConverters(jacksonMessageConverter)
             .build();
