@@ -1,9 +1,10 @@
 package aperture.web.rest;
 
 import aperture.model.TestSubject;
+import aperture.model.enums.TypeOperation;
 import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
-import aperture.service.impl.TestSubjectServiceImpl;
+import aperture.service.TestSubjectService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,13 @@ public class TestSubjectResource {
 
     private final TestSubjectRepository testSubjectRepository;
 
-    private final TestSubjectServiceImpl testSubjectServiceImpl;
+    private final TestSubjectService testSubjectService;
 
     @Autowired
-    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectServiceImpl testSubjectServiceImpl) {
+    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectService testSubjectService) {
         this.testSubjectRepository = testSubjectRepository;
         this.roomRepository = roomRepository;
-        this.testSubjectServiceImpl = testSubjectServiceImpl;
+        this.testSubjectService = testSubjectService;
     }
 
     @GetMapping(produces = "application/json")
@@ -82,21 +83,12 @@ public class TestSubjectResource {
     public @ResponseBody
     ResponseEntity<TestSubject> createTestSubject(@RequestBody TestSubject testSubjectToCreate) {
         LOGGER.info("REST request to createTestSubject() : " + testSubjectToCreate);
+        TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToCreate, TypeOperation.CREATE);
 
-        if (testSubjectToCreate != null) {
-            testSubjectToCreate.setId(null);
-            if (testSubjectRepository.findByName(testSubjectToCreate.getName()) != null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                if (testSubjectServiceImpl.allRoomsProvidedExist(testSubjectToCreate)) {
-                    TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToCreate);
-                    return ResponseEntity.ok()
-                        .headers(HeaderUtil.getStandardHeaders())
-                        .body(testSubjectOutput);
-                } else {
-                    return ResponseEntity.badRequest().body(null);
-                }
-            }
+        if (testSubjectOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(testSubjectOutput);
         } else {
             return ResponseEntity.badRequest().body(null);
         }
@@ -111,7 +103,7 @@ public class TestSubjectResource {
             if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                if (testSubjectServiceImpl.allRoomsProvidedExist(testSubjectToUpdate)) {
+                if (testSubjectService.allRoomsProvidedExist(testSubjectToUpdate)) {
                     TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
                     if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
                         TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToUpdate);
