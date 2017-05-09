@@ -99,24 +99,12 @@ public class TestSubjectResource {
     ResponseEntity<TestSubject> updateTestSubject(@RequestBody TestSubject testSubjectToUpdate) {
         LOGGER.info("REST request to updateTestSubject() : " + testSubjectToUpdate);
 
-        if (testSubjectToUpdate != null) {
-            if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                if (testSubjectService.allRoomsProvidedExist(testSubjectToUpdate)) {
-                    TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
-                    if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
-                        TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToUpdate);
-                        return ResponseEntity.ok()
-                            .headers(HeaderUtil.getStandardHeaders())
-                            .body(testSubjectOutput);
-                    } else {
-                        return ResponseEntity.badRequest().body(null);
-                    }
-                } else {
-                    return ResponseEntity.badRequest().body(null);
-                }
-            }
+        TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToUpdate, TypeOperation.UPDATE);
+
+        if (testSubjectOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(testSubjectOutput);
         } else {
             return ResponseEntity.badRequest().body(null);
         }

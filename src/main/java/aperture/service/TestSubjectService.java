@@ -10,5 +10,7 @@ public interface TestSubjectService {
 
     TestSubject createTestSubject(TestSubject testSubjectToCreate);
 
+    TestSubject updateTestSubject(TestSubject testSubjectToUpdate);
+
     boolean allRoomsProvidedExist(TestSubject testSubject);
 }

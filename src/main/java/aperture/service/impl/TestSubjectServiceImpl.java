@@ -46,10 +46,18 @@ public class TestSubjectServiceImpl implements TestSubjectService {
         }
     }
 
+    @Override
     public TestSubject updateTestSubject(TestSubject testSubjectToUpdate) {
-
-
-        return null;
+        if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null || !allRoomsProvidedExist(testSubjectToUpdate)) {
+            return null;
+        } else {
+            TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
+            if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
+                return testSubjectRepository.save(testSubjectToUpdate);
+            } else {
+                return null;
+            }
+        }
     }
 
     @Override
