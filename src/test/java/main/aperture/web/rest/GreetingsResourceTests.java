@@ -1,6 +1,7 @@
 package main.aperture.web.rest;
 
-import config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.web.rest.GreetingsResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import web.rest.GreetingsResource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

@@ -1,4 +1,4 @@
-package web.rest.util;
+package aperture.web.rest.util;
 
 
 import org.springframework.http.HttpStatus;

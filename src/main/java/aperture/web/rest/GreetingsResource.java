@@ -1,10 +1,10 @@
-package web.rest;
+package aperture.web.rest;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import model.Greeting;
+import aperture.model.Greeting;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping(value = "/api", produces={MediaType.APPLICATION_JSON_UTF8_VALUE})

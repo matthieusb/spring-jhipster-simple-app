@@ -1,6 +1,6 @@
-package repository;
+package aperture.repository;
 
-import model.TestSupervisor;
+import aperture.model.TestSupervisor;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

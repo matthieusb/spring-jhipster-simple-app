@@ -1,15 +1,15 @@
-package web.rest;
+package aperture.web.rest;
 
 
-import model.Room;
+import aperture.model.Room;
+import aperture.repository.RoomRepository;
+import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repository.RoomRepository;
-import web.rest.util.HeaderUtil;
 
 import java.util.List;
 

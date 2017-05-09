@@ -1,14 +1,14 @@
-package web.rest;
+package aperture.web.rest;
 
-import model.TestSupervisor;
+import aperture.model.TestSupervisor;
+import aperture.repository.TestSupervisorRepository;
+import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repository.TestSupervisorRepository;
-import web.rest.util.HeaderUtil;
 
 import java.util.List;
 

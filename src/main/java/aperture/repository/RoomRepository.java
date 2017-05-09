@@ -1,6 +1,6 @@
-package repository;
+package aperture.repository;
 
-import model.Room;
+import aperture.model.Room;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

@@ -1,8 +1,10 @@
 package main.aperture.web.rest;
 
 
-import config.SpringBootApertureTestingConfiguration;
-import model.Room;
+import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.model.Room;
+import aperture.repository.RoomRepository;
+import aperture.web.rest.RoomResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +16,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import repository.RoomRepository;
-import web.rest.RoomResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;

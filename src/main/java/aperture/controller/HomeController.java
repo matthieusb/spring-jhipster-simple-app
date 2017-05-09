@@ -1,4 +1,4 @@
-package controller;
+package aperture.controller;
 
 
 import org.springframework.stereotype.Controller;

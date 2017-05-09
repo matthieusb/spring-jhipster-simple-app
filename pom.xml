@@ -92,7 +92,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
                 <configuration>
-                    <mainClass>config.SpringBootApertureTestingConfiguration</mainClass>
+                    <mainClass>aperture.config.SpringBootApertureTestingConfiguration</mainClass>
                 </configuration>
                 <executions>
                     <execution>

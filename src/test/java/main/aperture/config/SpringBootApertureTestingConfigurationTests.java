@@ -1,6 +1,6 @@
 package main.aperture.config;
 
-import config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureTestingConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class SpringBootApertureTestingConfigurationTests {
     public void shouldReturn200Health() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.mgt + "/health", Map.class
+            "http://localhost:" + this.mgt + "/health", Map.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -49,7 +49,7 @@ public class SpringBootApertureTestingConfigurationTests {
     public void shouldReturn200InfoRoute() throws Exception {
         @SuppressWarnings("rawtypes")
         ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.mgt + "/info", Map.class
+            "http://localhost:" + this.mgt + "/info", Map.class
         );
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);

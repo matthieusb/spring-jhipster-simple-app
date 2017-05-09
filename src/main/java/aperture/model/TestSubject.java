@@ -1,4 +1,4 @@
-package model;
+package aperture.model;
 
 
 import org.springframework.data.annotation.Id;
