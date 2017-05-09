@@ -3,6 +3,7 @@ package aperture.web.rest;
 import aperture.model.TestSubject;
 import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
+import aperture.service.TestSubjectService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +24,13 @@ public class TestSubjectResource {
 
     private final TestSubjectRepository testSubjectRepository;
 
+    private final TestSubjectService testSubjectService;
+
     @Autowired
-    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository) {
+    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectService testSubjectService) {
         this.testSubjectRepository = testSubjectRepository;
         this.roomRepository = roomRepository;
+        this.testSubjectService = testSubjectService;
     }
 
     @GetMapping(produces = "application/json")
@@ -84,13 +88,7 @@ public class TestSubjectResource {
             if (testSubjectRepository.findByName(testSubjectToCreate.getName()) != null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                boolean allRoomsProvidedExist = testSubjectToCreate.getRooms().stream()
-                    .allMatch(subjectRoom ->
-                        roomRepository.findById(subjectRoom.getId()) != null
-                            && !roomRepository.findByName(subjectRoom.getName()).isEmpty()
-                            && roomRepository.findByNumber(subjectRoom.getNumber()) != null
-                    );
-                if (allRoomsProvidedExist) {
+                if (testSubjectService.allRoomsProvidedExist(testSubjectToCreate)) {
                     TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToCreate);
                     return ResponseEntity.ok()
                         .headers(HeaderUtil.getStandardHeaders())
@@ -113,14 +111,7 @@ public class TestSubjectResource {
             if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null) {
                 return ResponseEntity.badRequest().body(null);
             } else {
-                boolean allRoomsProvidedExist = testSubjectToUpdate.getRooms().stream()
-                    .allMatch(subjectRoom ->
-                        roomRepository.findById(subjectRoom.getId()) != null
-                            && !roomRepository.findByName(subjectRoom.getName()).isEmpty()
-                            && roomRepository.findByNumber(subjectRoom.getNumber()) != null
-                    );
-
-                if (allRoomsProvidedExist) {
+                if (testSubjectService.allRoomsProvidedExist(testSubjectToUpdate)) {
                     TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
                     if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
                         TestSubject testSubjectOutput = testSubjectRepository.save(testSubjectToUpdate);
@@ -138,8 +129,6 @@ public class TestSubjectResource {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-
 
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
