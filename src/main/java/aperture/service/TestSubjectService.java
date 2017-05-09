@@ -6,7 +6,7 @@ import aperture.model.enums.TypeOperation;
 
 public interface TestSubjectService {
 
-    TestSubject createOrUpdateTestSubject(TestSubject testSubjectToCreateOrupdate, TypeOperation typeOperation);
+    TestSubject createOrUpdateTestSubject(TestSubject testSubjectToCreateOrUpdate, TypeOperation typeOperation);
 
     TestSubject createTestSubject(TestSubject testSubjectToCreate);
 

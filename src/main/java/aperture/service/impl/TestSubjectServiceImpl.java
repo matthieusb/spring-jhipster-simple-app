@@ -21,15 +21,15 @@ public class TestSubjectServiceImpl implements TestSubjectService {
 
 
     @Override
-    public TestSubject createOrUpdateTestSubject(TestSubject testSubjectToCreateOrupdate, TypeOperation typeOperation) {
-        if (testSubjectToCreateOrupdate == null) {
+    public TestSubject createOrUpdateTestSubject(TestSubject testSubjectToCreateOrUpdate, TypeOperation typeOperation) {
+        if (testSubjectToCreateOrUpdate == null) {
             return null;
         } else {
             TestSubject testSubjectToReturn = null;
             if (typeOperation == TypeOperation.CREATE) {
-                testSubjectToReturn = createTestSubject(testSubjectToCreateOrupdate);
+                testSubjectToReturn = createTestSubject(testSubjectToCreateOrUpdate);
             } else if (typeOperation == TypeOperation.UPDATE) {
-                testSubjectToReturn = updateTestSubject(testSubjectToCreateOrupdate);
+                testSubjectToReturn = updateTestSubject(testSubjectToCreateOrUpdate);
             }
 
             return testSubjectToReturn;
