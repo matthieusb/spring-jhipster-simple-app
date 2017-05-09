@@ -1,4 +1,4 @@
-package main.web.rest;
+package main.aperture.web.rest;
 
 import config.SpringBootApertureTestingConfiguration;
 import org.junit.Before;
