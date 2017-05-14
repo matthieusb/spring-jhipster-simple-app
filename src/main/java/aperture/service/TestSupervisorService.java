@@ -5,9 +5,9 @@ import aperture.model.TestSupervisor;
 import aperture.model.enums.TypeOperation;
 
 public interface TestSupervisorService {
-    TestSupervisor createOrUpdateTestSubject(TestSupervisor testSupervisorToCreateOrUpdate, TypeOperation typeOperation);
+    TestSupervisor createOrUpdateTestSupervisor(TestSupervisor testSupervisorToCreateOrUpdate, TypeOperation typeOperation);
 
-    TestSupervisor createTestSubject(TestSupervisor testSupervisorToCreate);
+    TestSupervisor createTestSupervisor(TestSupervisor testSupervisorToCreate);
 
-    TestSupervisor updateTestSubject(TestSupervisor testSupervisorToUpdate);
+    TestSupervisor updateTestSupervisor(TestSupervisor testSupervisorToUpdate);
 }

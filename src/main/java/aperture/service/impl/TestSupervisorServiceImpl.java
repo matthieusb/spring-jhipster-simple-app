@@ -7,17 +7,17 @@ import aperture.service.TestSupervisorService;
 
 public class TestSupervisorServiceImpl implements TestSupervisorService {
     @Override
-    public TestSupervisor createOrUpdateTestSubject(TestSupervisor testSupervisorToCreateOrUpdate, TypeOperation typeOperation) {
+    public TestSupervisor createOrUpdateTestSupervisor(TestSupervisor testSupervisorToCreateOrUpdate, TypeOperation typeOperation) {
         return null;
     }
 
     @Override
-    public TestSupervisor createTestSubject(TestSupervisor testSupervisorToCreate) {
+    public TestSupervisor createTestSupervisor(TestSupervisor testSupervisorToCreate) {
         return null;
     }
 
     @Override
-    public TestSupervisor updateTestSubject(TestSupervisor testSupervisorToUpdate) {
+    public TestSupervisor updateTestSupervisor(TestSupervisor testSupervisorToUpdate) {
         return null;
     }
 }

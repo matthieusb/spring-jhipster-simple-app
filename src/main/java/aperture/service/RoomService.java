@@ -5,10 +5,10 @@ import aperture.model.Room;
 import aperture.model.enums.TypeOperation;
 
 public interface RoomService {
-    Room createOrUpdateTestSubject(Room roomToCreateOrUpdate, TypeOperation typeOperation);
+    Room createOrUpdateRoom(Room roomToCreateOrUpdate, TypeOperation typeOperation);
 
-    Room createTestSubject(Room roomToCreate);
+    Room createTestRoom(Room roomToCreate);
 
-    Room updateTestSubject(Room roomToUpdate);
+    Room updateTestRoom(Room roomToUpdate);
 
 }

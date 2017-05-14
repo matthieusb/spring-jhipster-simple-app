@@ -82,7 +82,7 @@ public class TestSubjectResource {
     @PostMapping(path = "/create")
     public @ResponseBody
     ResponseEntity<TestSubject> createTestSubject(@RequestBody TestSubject testSubjectToCreate) {
-        LOGGER.info("REST request to createTestSubject() : " + testSubjectToCreate);
+        LOGGER.info("REST request to createTestSupervisor() : " + testSubjectToCreate);
         TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToCreate, TypeOperation.CREATE);
 
         if (testSubjectOutput != null) {
@@ -97,7 +97,7 @@ public class TestSubjectResource {
     @PutMapping(path = "/update")
     public @ResponseBody
     ResponseEntity<TestSubject> updateTestSubject(@RequestBody TestSubject testSubjectToUpdate) {
-        LOGGER.info("REST request to updateTestSubject() : " + testSubjectToUpdate);
+        LOGGER.info("REST request to updateTestSupervisor() : " + testSubjectToUpdate);
 
         TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToUpdate, TypeOperation.UPDATE);
 
