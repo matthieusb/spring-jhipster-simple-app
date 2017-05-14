@@ -4,8 +4,9 @@ import aperture.model.Room;
 import aperture.model.enums.TypeOperation;
 import aperture.repository.RoomRepository;
 import aperture.service.RoomService;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;

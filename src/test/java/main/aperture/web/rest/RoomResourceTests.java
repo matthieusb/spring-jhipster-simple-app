@@ -4,6 +4,7 @@ package main.aperture.web.rest;
 import aperture.config.SpringBootApertureTestingConfiguration;
 import aperture.model.Room;
 import aperture.repository.RoomRepository;
+import aperture.service.RoomService;
 import aperture.web.rest.RoomResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,9 @@ public class RoomResourceTests {
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
+    private RoomService roomService;
+
+    @Autowired
     private RoomRepository roomRepository;
 
     private MockMvc mockMvc;
@@ -43,7 +47,7 @@ public class RoomResourceTests {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        RoomResource roomResource = new RoomResource(roomRepository);
+        RoomResource roomResource = new RoomResource(roomService, roomRepository);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(roomResource)
             .setMessageConverters(jacksonMessageConverter)

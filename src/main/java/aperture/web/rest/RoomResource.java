@@ -2,7 +2,9 @@ package aperture.web.rest;
 
 
 import aperture.model.Room;
+import aperture.model.enums.TypeOperation;
 import aperture.repository.RoomRepository;
+import aperture.service.RoomService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,13 @@ public class RoomResource {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RoomResource.class);
 
+    private final RoomService roomService;
+
     private final RoomRepository roomRepository;
 
     @Autowired
-    public RoomResource(RoomRepository roomRepository) {
+    public RoomResource(RoomService roomService, RoomRepository roomRepository) {
+        this.roomService = roomService;
         this.roomRepository = roomRepository;
     }
 
@@ -90,19 +95,14 @@ public class RoomResource {
     public @ResponseBody
     ResponseEntity<Room> createRoom(@RequestBody Room roomToCreate) {
         LOGGER.info("REST request to createRoom() : " + roomToCreate);
+        Room roomOutput = roomService.createOrUpdateRoom(roomToCreate, TypeOperation.CREATE);
 
-        if (roomToCreate != null) {
-            roomToCreate.setId(null);
-            if (roomRepository.findByNumber(roomToCreate.getNumber()) != null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                Room roomOutput = roomRepository.save(roomToCreate);
-                return ResponseEntity.ok()
-                    .headers(HeaderUtil.getStandardHeaders())
-                    .body(roomOutput);
-            }
+        if (roomOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(roomOutput);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
