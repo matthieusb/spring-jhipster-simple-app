@@ -4,6 +4,9 @@ spring:
     data:
         mongodb:
             uri: mongodb://localhost:27017/apiApertureDB
+            host: localhost
+            port: 27017
+            database: apiApertureDB
 server:
     port: 8080
 

@@ -52,6 +52,8 @@ public class RoomResourceTests {
         this.mockMvc = MockMvcBuilders.standaloneSetup(roomResource)
             .setMessageConverters(jacksonMessageConverter)
             .build();
+
+        TestUtil.executeAllMongeezScripts();
     }
 
     // -- HttpStatus codes tests
