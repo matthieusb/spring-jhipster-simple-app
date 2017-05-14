@@ -7,8 +7,8 @@ import aperture.model.enums.TypeOperation;
 public interface RoomService {
     Room createOrUpdateRoom(Room roomToCreateOrUpdate, TypeOperation typeOperation);
 
-    Room createTestRoom(Room roomToCreate);
+    Room createRoom(Room roomToCreate);
 
-    Room updateTestRoom(Room roomToUpdate);
+    Room updateRoom(Room roomToUpdate);
 
 }

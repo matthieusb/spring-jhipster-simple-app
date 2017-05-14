@@ -31,7 +31,6 @@ public class TestSubjectServiceImpl implements TestSubjectService {
             } else if (typeOperation == TypeOperation.UPDATE) {
                 testSubjectToReturn = updateTestSubject(testSubjectToCreateOrUpdate);
             }
-
             return testSubjectToReturn;
         }
     }
