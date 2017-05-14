@@ -7,6 +7,7 @@ import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
 import aperture.service.impl.TestSubjectServiceImpl;
 import aperture.web.rest.TestSubjectResource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -65,6 +65,13 @@ public class TestSubjectResourceTests {
         SUBJECT_WRONG_UPDATED = new TestSubject("5063114bd386d8fadbd6", "Caroline updated", carolineRooms);
 
         SUBJECT_NEW = new TestSubject("0", "TestSubjectTest", carolineRooms);
+
+        TestUtil.executeAllMongeezScripts();
+    }
+
+    @After
+    public void putBackInPlace() {
+        TestUtil.executeAllMongeezScripts();
     }
 
     // -- HttpStatus codes tests
@@ -137,8 +144,6 @@ public class TestSubjectResourceTests {
 
         int databaseSizeAfterCreate = testSubjectRepository.findAll().size();
         assertThat(databaseSizeAfterCreate > databaseSizeBeforeCreate);
-
-        testSubjectRepository.delete(testSubjectRepository.findByName(SUBJECT_NEW.getName()));
     }
 
     @Test
@@ -166,8 +171,6 @@ public class TestSubjectResourceTests {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
-
-        testSubjectRepository.save(SUBJECT_CAROLINE); // Put back to default
     }
 
     @Test
@@ -181,19 +184,13 @@ public class TestSubjectResourceTests {
 
     @Test
     public void should200AndReturnDeletedTestSubjectWithIdDeleteRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_NEW.getName() + "\")]";
-
-        TestSubject testSubjectToDelete = testSubjectRepository.save(SUBJECT_NEW);
+        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_CAROLINE.getName() + "\")]";
         int databaseSizeBeforeDelete = testSubjectRepository.findAll().size();
 
-        if (testSubjectToDelete == null) {
-            fail("The NEW Room to delete was not found by number : " + SUBJECT_NEW);
-        } else {
-            mockMvc.perform(delete("/api/subjects/delete/" + testSubjectToDelete.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
-        }
+        mockMvc.perform(delete("/api/subjects/delete/" + SUBJECT_CAROLINE.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
 
         int databaseSizeAfterDelete = testSubjectRepository.findAll().size();
         assertThat(databaseSizeAfterDelete < databaseSizeBeforeDelete);
