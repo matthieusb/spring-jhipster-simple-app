@@ -5,6 +5,7 @@ import aperture.model.TestSupervisor;
 import aperture.repository.TestSupervisorRepository;
 import aperture.service.TestSupervisorService;
 import aperture.web.rest.TestSupervisorResource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -49,6 +49,13 @@ public class TestSupervisorResourceTests {
         this.mockMvc = MockMvcBuilders.standaloneSetup(testSupervisorResource)
             .setMessageConverters(jacksonMessageConverter)
             .build();
+
+        TestUtil.executeAllMongeezScripts();
+    }
+
+    @After
+    public void putBackInPlace() {
+        TestUtil.executeAllMongeezScripts();
     }
 
     // -- HttpStatus codes tests
@@ -120,8 +127,6 @@ public class TestSupervisorResourceTests {
 
         int databaseSizeAfterCreate = testSupervisorRepository.findAll().size();
         assertThat(databaseSizeAfterCreate > databaseSizeBeforeCreate);
-
-        testSupervisorRepository.delete(testSupervisorRepository.findByLogin(NEW_SUPERVISOR.getLogin()));
     }
 
     @Test
@@ -164,19 +169,16 @@ public class TestSupervisorResourceTests {
 
     @Test
     public void should200AndReturnDeletedRoomWithIdDeleteRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.login==\"" + NEW_SUPERVISOR.getLogin() + "\")]";
+        String jsonPathExpression = "$.[?(@.login==\"" + SUPERVISOR_GLADOS.getLogin() + "\")]";
 
-        TestSupervisor supervisorToDelete = testSupervisorRepository.save(NEW_SUPERVISOR);
+        TestSupervisor supervisorToDelete = testSupervisorRepository.save(SUPERVISOR_GLADOS);
         int databaseSizeBeforeDelete = testSupervisorRepository.findAll().size();
+        
+        mockMvc.perform(delete("/api/supervisors/delete/" + supervisorToDelete.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
 
-        if (supervisorToDelete == null) {
-            fail("The NEW Room to delete was not found by number : " + NEW_SUPERVISOR);
-        } else {
-            mockMvc.perform(delete("/api/supervisors/delete/" + supervisorToDelete.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
-        }
 
         int databaseSizeAfterDelete = testSupervisorRepository.findAll().size();
         assertThat(databaseSizeAfterDelete < databaseSizeBeforeDelete);
