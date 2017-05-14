@@ -110,23 +110,14 @@ public class RoomResource {
     public @ResponseBody
     ResponseEntity<Room> updateRoom(@RequestBody Room roomToUpdate) {
         LOGGER.info("REST request to updateRoom() : " + roomToUpdate);
+        Room roomOutput = roomService.createOrUpdateRoom(roomToUpdate, TypeOperation.UPDATE);
 
-        if (roomToUpdate != null) {
-            if (roomRepository.findById(roomToUpdate.getId()) == null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                Room roomFoundByNumber = roomRepository.findByNumber(roomToUpdate.getNumber());
-                if (roomFoundByNumber.getId().equals(roomToUpdate.getId())) {
-                    Room roomOutput = roomRepository.save(roomToUpdate);
-                    return ResponseEntity.ok()
-                        .headers(HeaderUtil.getStandardHeaders())
-                        .body(roomOutput);
-                } else {
-                    return ResponseEntity.badRequest().body(null);
-                }
-            }
+        if (roomOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(roomOutput);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
