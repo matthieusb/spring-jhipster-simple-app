@@ -96,24 +96,14 @@ public class TestSupervisorResource {
     public @ResponseBody
     ResponseEntity<TestSupervisor> updateTestSupervisor(@RequestBody TestSupervisor testSupervisorToUpdate) {
         LOGGER.info("REST request to updateTestSupervisor() : " + testSupervisorToUpdate);
+        TestSupervisor testSupervisorOutput = testSupervisorService.createOrUpdateTestSupervisor(testSupervisorToUpdate, TypeOperation.UPDATE);
 
-        if (testSupervisorToUpdate != null) {
-            if (testSupervisorRepository.findById(testSupervisorToUpdate.getId()) == null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository.findByLogin(testSupervisorToUpdate.getLogin());
-
-                if (testSupervisorFoundByLogin == null || testSupervisorFoundByLogin.getId().equals(testSupervisorToUpdate.getId())) {
-                    TestSupervisor testSupervisorOutput = testSupervisorRepository.save(testSupervisorToUpdate);
-                    return ResponseEntity.ok()
-                        .headers(HeaderUtil.getStandardHeaders())
-                        .body(testSupervisorOutput);
-                } else {
-                    return ResponseEntity.badRequest().build();
-                }
-            }
+        if (testSupervisorOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(testSupervisorOutput);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

@@ -44,6 +44,17 @@ public class TestSupervisorServiceImpl implements TestSupervisorService {
 
     @Override
     public TestSupervisor updateTestSupervisor(TestSupervisor testSupervisorToUpdate) {
-        return null;
+        if (testSupervisorRepository.findById(testSupervisorToUpdate.getId()) == null) {
+            return null;
+        } else {
+            TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository.findByLogin(testSupervisorToUpdate.getLogin());
+            
+            TestSupervisor testSupervisorOutput = null;
+            if (testSupervisorFoundByLogin == null || testSupervisorFoundByLogin.getId().equals(testSupervisorToUpdate.getId())) {
+                testSupervisorOutput = testSupervisorRepository.save(testSupervisorToUpdate);
+            }
+
+            return testSupervisorOutput;
+        }
     }
 }
