@@ -3,6 +3,7 @@ package main.aperture.web.rest;
 import aperture.config.SpringBootApertureTestingConfiguration;
 import aperture.model.TestSupervisor;
 import aperture.repository.TestSupervisorRepository;
+import aperture.service.TestSupervisorService;
 import aperture.web.rest.TestSupervisorResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,9 @@ public class TestSupervisorResourceTests {
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
+    private TestSupervisorService testSupervisorService;
+
+    @Autowired
     private TestSupervisorRepository testSupervisorRepository;
 
     private MockMvc mockMvc;
@@ -41,7 +45,7 @@ public class TestSupervisorResourceTests {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TestSupervisorResource testSupervisorResource = new TestSupervisorResource(testSupervisorRepository);
+        TestSupervisorResource testSupervisorResource = new TestSupervisorResource(testSupervisorService, testSupervisorRepository);
         this.mockMvc = MockMvcBuilders.standaloneSetup(testSupervisorResource)
             .setMessageConverters(jacksonMessageConverter)
             .build();

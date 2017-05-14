@@ -1,7 +1,9 @@
 package aperture.web.rest;
 
 import aperture.model.TestSupervisor;
+import aperture.model.enums.TypeOperation;
 import aperture.repository.TestSupervisorRepository;
+import aperture.service.TestSupervisorService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +20,13 @@ public class TestSupervisorResource {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TestSupervisorResource.class);
 
+    private final TestSupervisorService testSupervisorService;
+
     private final TestSupervisorRepository testSupervisorRepository;
 
     @Autowired
-    public TestSupervisorResource(TestSupervisorRepository testSupervisorRepository) {
+    public TestSupervisorResource(TestSupervisorService testSupervisorService, TestSupervisorRepository testSupervisorRepository) {
+        this.testSupervisorService = testSupervisorService;
         this.testSupervisorRepository = testSupervisorRepository;
     }
 
@@ -76,18 +81,14 @@ public class TestSupervisorResource {
     ResponseEntity<TestSupervisor> createTestSupervisor(@RequestBody TestSupervisor testSupervisorToCreate) {
         LOGGER.info("REST request to createTestSupervisor() : " + testSupervisorToCreate);
 
-        if (testSupervisorToCreate != null) {
-            testSupervisorToCreate.setId(null);
-            if (testSupervisorRepository.findByLogin(testSupervisorToCreate.getLogin()) != null) {
-                return ResponseEntity.badRequest().body(null);
-            } else {
-                TestSupervisor testSupervisorOutput = testSupervisorRepository.save(testSupervisorToCreate);
-                return ResponseEntity.ok()
-                    .headers(HeaderUtil.getStandardHeaders())
-                    .body(testSupervisorOutput);
-            }
+        TestSupervisor testSupervisorOutput = testSupervisorService.createOrUpdateTestSupervisor(testSupervisorToCreate, TypeOperation.CREATE);
+
+        if (testSupervisorOutput != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.getStandardHeaders())
+                .body(testSupervisorOutput);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
