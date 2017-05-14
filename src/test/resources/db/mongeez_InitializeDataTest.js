@@ -1,11 +1,11 @@
 //mongeez formatted javascript
 
-//changeset msb:ChangeSet-1
+//changeset msb:ChangeSet-1 runAlways:true
 db.Rooms.remove({});
 db.TestSupervisors.remove({});
 db.TestSubjects.remove({});
 
-//changeset msb:ChangeSet-2
+//changeset msb:ChangeSet-2 runAlways:true
 db.TestSupervisors.insert({
     "_id": ObjectId("5063114bd386d8fadbd6b004"),
     "login": "glados@aperture.fr",
@@ -20,7 +20,7 @@ db.TestSupervisors.insert({"_id": ObjectId("5063114bd386d8fadbd6b009"), "login":
 
 // ---------- Rooms
 
-//changeset msb:ChangeSet-3
+//changeset msb:ChangeSet-3 runAlways:true
 db.Rooms.insert({"_id": ObjectId("5063114bd386d8fadbd6b00a"), "number": 42, "name": "Answer to life room"});
 db.Rooms.insert({"_id": ObjectId("5063114bd386d8fadbd6b00b"), "number": 4, "name": "Paths"});
 db.Rooms.insert({"_id": ObjectId("5063114bd386d8fadbd6b00c"), "number": 36, "name": "6x6"});
@@ -33,7 +33,7 @@ db.Rooms.insert({"_id": ObjectId("5063114bd386d8fadbd6b03a"), "number": 123, "na
 
 // ---------- TestSubjects
 
-//changeset msb:ChangeSet-4
+//changeset msb:ChangeSet-4 runAlways:true
 db.TestSubjects.insert(
     {
         "_id": ObjectId("5063114bd386d8fadbd6b00a"),

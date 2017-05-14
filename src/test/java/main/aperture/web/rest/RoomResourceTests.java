@@ -6,6 +6,7 @@ import aperture.model.Room;
 import aperture.repository.RoomRepository;
 import aperture.service.RoomService;
 import aperture.web.rest.RoomResource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,6 +54,11 @@ public class RoomResourceTests {
             .build();
 
         TestUtil.executeAllMongeezScripts();
+    }
+
+    @After
+    public void putBackInPlace() {
+        TestUtil.executeAllMongeezScripts(); // This is not mandatory
     }
 
     // -- HttpStatus codes tests
@@ -143,8 +148,6 @@ public class RoomResourceTests {
 
         int databaseSizeAfterCreate = roomRepository.findAll().size();
         assertThat(databaseSizeAfterCreate > databaseSizeBeforeCreate);
-
-        roomRepository.delete(roomRepository.findByNumber(NEW_ROOM.getNumber()));
     }
 
     @Test
@@ -172,8 +175,6 @@ public class RoomResourceTests {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
-
-        roomRepository.save(ROOM_42); // Put back to default
     }
 
     @Test
@@ -187,19 +188,13 @@ public class RoomResourceTests {
 
     @Test
     public void should200AndReturnDeletedRoomWithIdDeleteRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + NEW_ROOM.getName() + "\")]";
-
-        Room roomToDelete = roomRepository.save(NEW_ROOM);
+        String jsonPathExpression = "$.[?(@.name==\"" + ROOM_42.getName() + "\")]";
         int databaseSizeBeforeDelete = roomRepository.findAll().size();
 
-        if (roomToDelete == null) {
-            fail("The NEW Room to delete was not found by number : " + NEW_ROOM);
-        } else {
-            mockMvc.perform(delete("/api/rooms/delete/" + roomToDelete.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
-        }
+        mockMvc.perform(delete("/api/rooms/delete/" + ROOM_42.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
 
         int databaseSizeAfterDelete = roomRepository.findAll().size();
         assertThat(databaseSizeAfterDelete < databaseSizeBeforeDelete);
