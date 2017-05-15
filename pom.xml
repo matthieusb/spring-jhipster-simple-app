@@ -23,7 +23,9 @@
         <junit-version>4.8.1</junit-version>
         <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
         <fizzedwatcher.version>1.0.6</fizzedwatcher.version>
-        <gatling.version>2.2.4</gatling.version>
+        <gatling.version>2.2.5</gatling.version>
+        <gatling-plugin.version>2.2.4</gatling-plugin.version>
+        <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
     </properties>
 
 
@@ -143,11 +145,25 @@
                 </configuration>
             </plugin>
 
+            <!-- Scala maven plugin -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${scala-maven-plugin.version}</version>
+            </plugin>
+
             <!-- Gatling maven plugin -->
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <version>${gatling.version}</version>
+                <version>${gatling-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
