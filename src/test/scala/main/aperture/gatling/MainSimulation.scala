@@ -8,9 +8,17 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
+/**
+  * This class is meant to load test main get routes of this app
+  * The app has to be launched first (Manually, unfortunately)
+  */
 class MainSimulation extends Simulation {
+
+    val baseUrl: String = "localhost"
+    val port: String = System.getProperty("server.port", "8080")
+
     val httpConf: HttpProtocolBuilder = http
-        .baseURL("http://localhost:8080") // Here is the root for all relative URLs
+        .baseURL(s"http://$baseUrl:$port") // Here is the root for all relative URLs
 
     val scenario_main_get: ScenarioBuilder = scenario("Testing main get routes")
         .exec(http("Request on main route")

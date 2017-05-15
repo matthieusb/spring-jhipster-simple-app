@@ -157,6 +157,9 @@
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${gatling-plugin.version}</version>
+                <configuration>
+                    <simulationClass>main.aperture.gatling.MainSimulation</simulationClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
