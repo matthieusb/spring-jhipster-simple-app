@@ -5,7 +5,6 @@ import aperture.model.TestSupervisor;
 import aperture.repository.TestSupervisorRepository;
 import aperture.service.TestSupervisorService;
 import aperture.web.rest.TestSupervisorResource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,10 +52,10 @@ public class TestSupervisorResourceTests {
         TestUtil.executeAllMongeezScripts();
     }
 
-    @After
-    public void putBackInPlace() {
-        TestUtil.executeAllMongeezScripts();
-    }
+//    @After
+//    public void putBackInPlace() {
+//        TestUtil.executeAllMongeezScripts();
+//    }
 
     // -- HttpStatus codes tests
 
@@ -173,7 +172,7 @@ public class TestSupervisorResourceTests {
 
         TestSupervisor supervisorToDelete = testSupervisorRepository.save(SUPERVISOR_GLADOS);
         int databaseSizeBeforeDelete = testSupervisorRepository.findAll().size();
-        
+
         mockMvc.perform(delete("/api/supervisors/delete/" + supervisorToDelete.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))

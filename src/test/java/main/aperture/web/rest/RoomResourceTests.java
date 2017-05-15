@@ -6,7 +6,6 @@ import aperture.model.Room;
 import aperture.repository.RoomRepository;
 import aperture.service.RoomService;
 import aperture.web.rest.RoomResource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,10 +55,10 @@ public class RoomResourceTests {
         TestUtil.executeAllMongeezScripts();
     }
 
-    @After
-    public void putBackInPlace() {
-        TestUtil.executeAllMongeezScripts(); // This is not mandatory
-    }
+//    @After
+//    public void putBackInPlace() {
+//        TestUtil.executeAllMongeezScripts(); // This is not mandatory
+//    }
 
     // -- HttpStatus codes tests
 

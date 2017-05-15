@@ -7,7 +7,6 @@ import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
 import aperture.service.impl.TestSubjectServiceImpl;
 import aperture.web.rest.TestSubjectResource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,10 +68,10 @@ public class TestSubjectResourceTests {
         TestUtil.executeAllMongeezScripts();
     }
 
-    @After
-    public void putBackInPlace() {
-        TestUtil.executeAllMongeezScripts();
-    }
+//    @After
+//    public void putBackInPlace() {
+//        TestUtil.executeAllMongeezScripts();
+//    }
 
     // -- HttpStatus codes tests
 

@@ -26,6 +26,7 @@
         <gatling.version>2.2.5</gatling.version>
         <gatling-plugin.version>2.2.4</gatling-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
+        <checkstyle-maven-plugin.version>2.17</checkstyle-maven-plugin.version>
     </properties>
 
 
@@ -164,6 +165,28 @@
                     <execution>
                         <goals>
                             <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Checkstyle maven plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>checkstyle-sun.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>

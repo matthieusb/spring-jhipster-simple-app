@@ -14,6 +14,12 @@ import scala.language.postfixOps
   */
 class MainSimulation extends Simulation {
 
+    //    val app: ConfigurableApplicationContext = SpringApplication.run(classOf[SpringBootApertureTestingConfiguration])
+    //
+    //    Runtime.getRuntime.addShutdownHook(new Thread() {
+    //        override def run(): Unit = app.stop()
+    //    })
+
     val baseUrl: String = "localhost"
     val port: String = System.getProperty("server.port", "8080")
 
@@ -32,5 +38,5 @@ class MainSimulation extends Simulation {
         .pause(100 milliseconds)
         .exec(http("Request on supervisors main route")
             .get("/api/supervisors"))
-    setUp(scenario_main_get.inject(rampUsers(1000) over (5 seconds)).protocols(httpConf))
+    setUp(scenario_main_get.inject(rampUsers(10000) over (5 seconds)).protocols(httpConf))
 }
