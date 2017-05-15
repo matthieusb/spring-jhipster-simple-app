@@ -1,4 +1,4 @@
-package scala.main.aperture.gatling
+package main.aperture.gatling
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
