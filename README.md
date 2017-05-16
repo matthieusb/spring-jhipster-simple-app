@@ -30,7 +30,7 @@ To generate the checkstyle report (Also see the intellij integration plugin) :
 
 
 ```
-mvn checkstyle::check
+mvn checkstyle:check
 ```
 
 
