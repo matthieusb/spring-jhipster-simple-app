@@ -180,10 +180,10 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <configLocation>checkstyle-sun.xml</configLocation>
+                            <configLocation>checkstyle-sun-custom.xml</configLocation>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
+                            <failsOnError>false</failsOnError>
                         </configuration>
                         <goals>
                             <goal>check</goal>

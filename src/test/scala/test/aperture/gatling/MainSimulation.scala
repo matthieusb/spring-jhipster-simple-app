@@ -1,4 +1,4 @@
-package main.aperture.gatling
+package test.aperture.gatling
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder

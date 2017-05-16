@@ -1,4 +1,4 @@
-package main.aperture.web.rest;
+package test.aperture.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

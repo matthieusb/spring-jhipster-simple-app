@@ -1,4 +1,4 @@
-package main.aperture.web.rest;
+package test.aperture.web.rest;
 
 import aperture.config.SpringBootApertureTestingConfiguration;
 import aperture.web.rest.GreetingsResource;

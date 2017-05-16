@@ -1,4 +1,4 @@
-package main.aperture.config;
+package test.aperture.config;
 
 import aperture.config.SpringBootApertureTestingConfiguration;
 import org.junit.Test;
