@@ -4,6 +4,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+/**
+ * The room model class.
+ * A room is defined by its number which is unique.
+ * It can have any name.Test subjects have rooms they walk by trying to summon
+ * portals and not get killed by turrets.
+ */
 @Document(collection = "Rooms")
 public class Room {
 
@@ -37,37 +43,68 @@ public class Room {
     /**
      * Room constructor with all attributes.
      *
-     * @param idToSet     the room id, set to null to create a new room in the db.
+     * @param idToSet     the room id, set to null
+     *                    to create a new room in the db.
      * @param numberToSet the room number, should not exist if new room.
      * @param nameToSet   the room name, not particular constraint.
      */
-    public Room(final String idToSet, final Integer numberToSet, final String nameToSet) {
+    public Room(String idToSet, Integer numberToSet, String nameToSet) {
         this.id = idToSet;
         this.number = numberToSet;
         this.name = nameToSet;
     }
 
+    /**
+     * Gets the room id.
+     *
+     * @return the id.
+     */
     public String getId() {
         return id;
     }
 
-    public void setId(final String id) {
-        this.id = id;
+    /**
+     * Sets the room id.
+     *
+     * @param idToSet the id to set.
+     */
+    public void setId(String idToSet) {
+        this.id = idToSet;
     }
 
+    /**
+     * Gets the room number.
+     *
+     * @return the room number.
+     */
     public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(final Integer numberToSet) {
+    /**
+     * Sets the room number.
+     *
+     * @param numberToSet the number tu set.
+     */
+    public void setNumber(Integer numberToSet) {
         this.number = numberToSet;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the room name.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(final String nameToSet) {
+    /**
+     * Sets the name.
+     *
+     * @param nameToSet the name to set.
+     */
+    public void setName(String nameToSet) {
         this.name = nameToSet;
     }
 
@@ -86,7 +123,7 @@ public class Room {
      * @return true if every row is the same.
      */
     @Override
-    public boolean equals(final Object objToCompare) {
+    public boolean equals(Object objToCompare) {
         if (this == objToCompare) {
             return true;
         }
@@ -99,5 +136,18 @@ public class Room {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Generates the room hashcode.
+     *
+     * @return the room hashcode.
+     */
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = result + number.hashCode();
+        result = result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }
