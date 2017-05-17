@@ -18,8 +18,9 @@ trim(){
 
 # ########### MAIN PROGRAM
 
-# ------ First, launch the spring-boot app in background
-mvn spring-boot:run &
+# ------ First, launch the spring-boot app in background and get its pid
+mvn spring-boot:run > /tmp/apertureapi-loadtestscript.log 2>&1 &
+API_PID=$!
 
 # ------ Then, wait for it to be correctly initialized
 
@@ -36,6 +37,12 @@ do
     i=$[$i+1]
 done
 
+# ------ Execute the gatling tests
 mvn gatling:execute
+
+# ------ Stop the spring boot api
+kill $API_PID
+
+
 
 
