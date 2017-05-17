@@ -21,10 +21,10 @@ mvn test
 For load tests with *gatling*, run :
 
 ```
-mvn gatling:execute
+./gatling_tests.sh
 ```
-
-You'll see some result in your console, but you can go check out the graphs in *target/gatling* afterwards.
+This will start the app and then laucnh the load tests on it.
+You'll see some result in your console, but you can go check out the graphs in *target/gatling* afterwards and open the index.html for nice looking graphs.
 
 To generate the checkstyle report (Also see the intellij integration plugin) :
 
