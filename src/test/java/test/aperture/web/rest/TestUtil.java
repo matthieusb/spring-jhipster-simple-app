@@ -2,7 +2,7 @@ package test.aperture.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import org.mongeez.Mongeez;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -30,7 +30,7 @@ class TestUtil {
     private static Mongeez getMongeezRunner(String changeLogPath, String dbName, String hostName, int hostPort) {
         Mongeez mongeez = new Mongeez();
         mongeez.setFile(new ClassPathResource(changeLogPath));
-        mongeez.setMongo(new Mongo(hostName, hostPort));
+        mongeez.setMongo(new MongoClient(hostName, hostPort));
         mongeez.setDbName(dbName);
 
         return mongeez;

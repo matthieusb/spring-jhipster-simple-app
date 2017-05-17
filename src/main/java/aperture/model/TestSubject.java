@@ -68,7 +68,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @return
      */
     public String getName() {
@@ -76,7 +75,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @param name
      */
     public void setName(String name) {
@@ -84,7 +82,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @return
      */
     public List<Room> getRooms() {
@@ -92,7 +89,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @param rooms
      */
     public void setRooms(ArrayList<Room> rooms) {
@@ -100,7 +96,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -112,7 +107,6 @@ public class TestSubject {
     }
 
     /**
-     *
      * @param objToCompare
      * @return
      */
