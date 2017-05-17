@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-@RequestMapping(value = "/api", produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class GreetingsResource {
 
-  private static final String template = "Hello, %s";
+    private static final String TEMPLATE = "Hello, %s";
   private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(value = "greeting", method = RequestMethod.GET)
     public @ResponseBody
     Greeting sayHello(@RequestParam(value = "name", required = false, defaultValue = "Stranger") String name) {
-    return new Greeting(counter.incrementAndGet(), String.format(template, name));
+        return new Greeting(counter.incrementAndGet(), String.format(TEMPLATE, name));
   }
 }

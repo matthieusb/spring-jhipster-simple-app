@@ -14,6 +14,9 @@ import java.nio.charset.Charset;
  * Utility class for testing REST controllers.
  */
 class TestUtil {
+
+    private static final int MONGOPORT = 27017;
+
     /** MediaType for JSON UTF8 */
     static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
         MediaType.APPLICATION_JSON.getType(),
@@ -37,9 +40,18 @@ class TestUtil {
     }
 
     static void executeAllMongeezScripts() {
-        String currentDbName = System.getenv().getOrDefault("spring.data.mongodb.database", "apiApertureTest");
-        String currentHost = System.getenv().getOrDefault("spring.data.mongodb.host", "localhost");
-        String currentPort = System.getenv().getOrDefault("spring.data.mongodb.port", String.valueOf(27017));
+        String currentDbName = System.getenv().getOrDefault(
+            "spring.data.mongodb.database",
+            "apiApertureTest"
+        );
+        String currentHost = System.getenv().getOrDefault(
+            "spring.data.mongodb.host",
+            "localhost"
+        );
+        String currentPort = System.getenv().getOrDefault(
+            "spring.data.mongodb.port",
+            String.valueOf(MONGOPORT)
+        );
 
         Mongeez mongeez = getMongeezRunner("db/mongeez.xml", currentDbName, currentHost, Integer.parseInt(currentPort));
         mongeez.process();

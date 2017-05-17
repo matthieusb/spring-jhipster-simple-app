@@ -19,22 +19,22 @@ import java.util.List;
 @RequestMapping(value = "/api/rooms", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class RoomResource {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(RoomResource.class);
+    private final Logger logger = LoggerFactory.getLogger(RoomResource.class);
 
     private final RoomService roomService;
 
     private final RoomRepository roomRepository;
 
     @Autowired
-    public RoomResource(RoomService roomService, RoomRepository roomRepository) {
-        this.roomService = roomService;
-        this.roomRepository = roomRepository;
+    public RoomResource(RoomService roomServiceToSet, RoomRepository roomRepositoryToSet) {
+        this.roomService = roomServiceToSet;
+        this.roomRepository = roomRepositoryToSet;
     }
 
     @GetMapping
     public @ResponseBody
     ResponseEntity<List<Room>> getAllRooms() {
-        LOGGER.info("REST request to getAllRooms()");
+        logger.info("REST request to getAllRooms()");
 
         List<Room> roomsFound = roomRepository.findAll();
         if (roomsFound.isEmpty()) {
@@ -49,7 +49,7 @@ public class RoomResource {
     @GetMapping(path = "/id/{id}")
     public @ResponseBody
     ResponseEntity<Room> getRoomById(@PathVariable(value = "id") String roomIdToSearch) {
-        LOGGER.info("REST request to getRoomById() : " + roomIdToSearch);
+        logger.info("REST request to getRoomById() : " + roomIdToSearch);
 
         Room room = roomRepository.findById(roomIdToSearch);
         if (room == null) {
@@ -64,7 +64,7 @@ public class RoomResource {
     @GetMapping(path = "/number/{number}")
     public @ResponseBody
     ResponseEntity<Room> getRoomByNumber(@PathVariable(value = "number") Integer roomNumberToSearch) {
-        LOGGER.debug("REST request to getRoomByNumber() : " + roomNumberToSearch);
+        logger.debug("REST request to getRoomByNumber() : " + roomNumberToSearch);
 
         Room room = roomRepository.findByNumber(roomNumberToSearch);
         if (room == null) {
@@ -79,7 +79,7 @@ public class RoomResource {
     @PostMapping(path = "/name")
     public @ResponseBody
     ResponseEntity<Room> getRoomByName(@RequestParam(value = "name") String roomNameToSearch) {
-        LOGGER.info("REST request to getRoomByName() : " + roomNameToSearch);
+        logger.info("REST request to getRoomByName() : " + roomNameToSearch);
 
         List<Room> rooms = roomRepository.findByName(roomNameToSearch);
         if (rooms.isEmpty()) {
@@ -94,7 +94,7 @@ public class RoomResource {
     @PostMapping(path = "/create")
     public @ResponseBody
     ResponseEntity<Room> createRoom(@RequestBody Room roomToCreate) {
-        LOGGER.info("REST request to createRoom() : " + roomToCreate);
+        logger.info("REST request to createRoom() : " + roomToCreate);
         Room roomOutput = roomService.createOrUpdateRoom(roomToCreate, TypeOperation.CREATE);
 
         if (roomOutput != null) {
@@ -109,7 +109,7 @@ public class RoomResource {
     @PutMapping(path = "/update")
     public @ResponseBody
     ResponseEntity<Room> updateRoom(@RequestBody Room roomToUpdate) {
-        LOGGER.info("REST request to updateRoom() : " + roomToUpdate);
+        logger.info("REST request to updateRoom() : " + roomToUpdate);
         Room roomOutput = roomService.createOrUpdateRoom(roomToUpdate, TypeOperation.UPDATE);
 
         if (roomOutput != null) {
@@ -124,7 +124,7 @@ public class RoomResource {
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     ResponseEntity<Room> deleteRoom(@PathVariable(value = "id") String idRoomToDelete) {
-        LOGGER.info("REST request to deleteRoom : " + idRoomToDelete);
+        logger.info("REST request to deleteRoom : " + idRoomToDelete);
 
         Room roomToDelete = roomRepository.findById(idRoomToDelete);
         if (roomToDelete == null) {

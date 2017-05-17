@@ -2,7 +2,6 @@ package aperture.web.rest;
 
 import aperture.model.TestSubject;
 import aperture.model.enums.TypeOperation;
-import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
 import aperture.service.TestSubjectService;
 import aperture.web.rest.util.HeaderUtil;
@@ -19,25 +18,23 @@ import java.util.List;
 @RequestMapping(value = "/api/subjects", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSubjectResource {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(TestSubjectResource.class);
-
-    private final RoomRepository roomRepository;
+    private final Logger logger = LoggerFactory.getLogger(TestSubjectResource.class);
 
     private final TestSubjectRepository testSubjectRepository;
 
     private final TestSubjectService testSubjectService;
 
     @Autowired
-    public TestSubjectResource(TestSubjectRepository testSubjectRepository, RoomRepository roomRepository, TestSubjectService testSubjectService) {
-        this.testSubjectRepository = testSubjectRepository;
-        this.roomRepository = roomRepository;
-        this.testSubjectService = testSubjectService;
+    public TestSubjectResource(TestSubjectRepository testSubjectRepositoryToSet,
+                               TestSubjectService testSubjectServiceToSet) {
+        this.testSubjectRepository = testSubjectRepositoryToSet;
+        this.testSubjectService = testSubjectServiceToSet;
     }
 
     @GetMapping(produces = "application/json")
     public @ResponseBody
     ResponseEntity<List<TestSubject>> getAllTestSubjects() {
-        LOGGER.info("REST request to getAllTestSubjects()");
+        logger.info("REST request to getAllTestSubjects()");
 
         List<TestSubject> testSubjects = testSubjectRepository.findAll();
         if (testSubjects.isEmpty()) {
@@ -52,7 +49,7 @@ public class TestSubjectResource {
     @GetMapping(path = "/id/{id}", produces = "application/json")
     public @ResponseBody
     ResponseEntity<TestSubject> getTestSubjectById(@PathVariable(value = "id") String testSubjectIdToSearch) {
-        LOGGER.info("REST request to getTestSubjectById() : " + testSubjectIdToSearch);
+        logger.info("REST request to getTestSubjectById() : " + testSubjectIdToSearch);
 
         TestSubject testSubject = testSubjectRepository.findById(testSubjectIdToSearch);
         if (testSubject == null) {
@@ -67,7 +64,7 @@ public class TestSubjectResource {
     @PostMapping(path = "/name", produces = "application/json")
     public @ResponseBody
     ResponseEntity<TestSubject> getTestSubjectByName(@RequestParam(value = "name") String testSubjectNameToSearch) {
-        LOGGER.info("REST request to getTestSubjectByName() : " + testSubjectNameToSearch);
+        logger.info("REST request to getTestSubjectByName() : " + testSubjectNameToSearch);
 
         TestSubject testSubject = testSubjectRepository.findByName(testSubjectNameToSearch);
         if (testSubject == null) {
@@ -82,8 +79,9 @@ public class TestSubjectResource {
     @PostMapping(path = "/create")
     public @ResponseBody
     ResponseEntity<TestSubject> createTestSubject(@RequestBody TestSubject testSubjectToCreate) {
-        LOGGER.info("REST request to createTestSupervisor() : " + testSubjectToCreate);
-        TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToCreate, TypeOperation.CREATE);
+        logger.info("REST request to createTestSupervisor() : " + testSubjectToCreate);
+        TestSubject testSubjectOutput = testSubjectService
+            .createOrUpdateTestSubject(testSubjectToCreate, TypeOperation.CREATE);
 
         if (testSubjectOutput != null) {
             return ResponseEntity.ok()
@@ -97,9 +95,10 @@ public class TestSubjectResource {
     @PutMapping(path = "/update")
     public @ResponseBody
     ResponseEntity<TestSubject> updateTestSubject(@RequestBody TestSubject testSubjectToUpdate) {
-        LOGGER.info("REST request to updateTestSupervisor() : " + testSubjectToUpdate);
+        logger.info("REST request to updateTestSupervisor() : " + testSubjectToUpdate);
 
-        TestSubject testSubjectOutput = testSubjectService.createOrUpdateTestSubject(testSubjectToUpdate, TypeOperation.UPDATE);
+        TestSubject testSubjectOutput = testSubjectService
+            .createOrUpdateTestSubject(testSubjectToUpdate, TypeOperation.UPDATE);
 
         if (testSubjectOutput != null) {
             return ResponseEntity.ok()
@@ -113,7 +112,7 @@ public class TestSubjectResource {
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     ResponseEntity<TestSubject> deleteTestSubject(@PathVariable(value = "id") String idTestSubjectToDelete) {
-        LOGGER.info("REST request to deleteTestSubject() : " + idTestSubjectToDelete);
+        logger.info("REST request to deleteTestSubject() : " + idTestSubjectToDelete);
 
         TestSubject testSubjectToDelete = testSubjectRepository.findById(idTestSubjectToDelete);
 

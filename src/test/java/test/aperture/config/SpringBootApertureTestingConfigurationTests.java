@@ -21,7 +21,8 @@ import static org.assertj.core.api.BDDAssertions.then;
  * This class tests if every url of this app returns the expected HTTP STATUS
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class,
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
 public class SpringBootApertureTestingConfigurationTests {
 

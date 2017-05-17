@@ -3,7 +3,6 @@ package test.aperture.web.rest;
 import aperture.config.SpringBootApertureTestingConfiguration;
 import aperture.model.Room;
 import aperture.model.TestSubject;
-import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
 import aperture.service.impl.TestSubjectServiceImpl;
 import aperture.web.rest.TestSubjectResource;
@@ -33,9 +32,6 @@ public class TestSubjectResourceTests {
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
-    private RoomRepository roomRepository;
-
-    @Autowired
     private TestSubjectRepository testSubjectRepository;
 
     @Autowired
@@ -44,34 +40,35 @@ public class TestSubjectResourceTests {
     private MockMvc mockMvc;
 
     // -- Variables used for tests
-    private TestSubject SUBJECT_CAROLINE, SUBJECT_CAROLINE_UPDATED, SUBJECT_WRONG_UPDATED, SUBJECT_NEW;
+    private TestSubject subjectCaroline, subjectCarolineUpdated, subjectWrongUpdated, subjectNew;
+
+    private static final int FOURTYTWO = 42;
+    private static final int THIRTYSIX = 36;
 
     @Before
     public void setup() {
         // -- Mock Mvc config
         MockitoAnnotations.initMocks(this);
-        TestSubjectResource testSubjectResource = new TestSubjectResource(testSubjectRepository, roomRepository, testSubjectServiceImpl);
+        TestSubjectResource testSubjectResource = new TestSubjectResource(
+            testSubjectRepository, testSubjectServiceImpl
+        );
         this.mockMvc = MockMvcBuilders.standaloneSetup(testSubjectResource)
             .setMessageConverters(jacksonMessageConverter)
             .build();
 
         /// -- Personal variables
+
+
         List<Room> carolineRooms = new ArrayList<>();
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00d", 1, "Initiation room"));
-        carolineRooms.add(new Room("5063114bd386d8fadbd6b00c", 36, "6x6"));
-        SUBJECT_CAROLINE = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline", carolineRooms);
-        SUBJECT_CAROLINE_UPDATED = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline updated", carolineRooms);
-        SUBJECT_WRONG_UPDATED = new TestSubject("5063114bd386d8fadbd6", "Caroline updated", carolineRooms);
-
-        SUBJECT_NEW = new TestSubject("0", "TestSubjectTest", carolineRooms);
+        carolineRooms.add(new Room("5063114bd386d8fadbd6b00c", THIRTYSIX, "6x6"));
+        subjectCaroline = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline", carolineRooms);
+        subjectCarolineUpdated = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline updated", carolineRooms);
+        subjectWrongUpdated = new TestSubject("5063114bd386d8fadbd6", "Caroline updated", carolineRooms);
+        subjectNew = new TestSubject("0", "TestSubjectTest", carolineRooms);
 
         TestUtil.executeAllMongeezScripts();
     }
-
-//    @After
-//    public void putBackInPlace() {
-//        TestUtil.executeAllMongeezScripts();
-//    }
 
     // -- HttpStatus codes tests
 
@@ -83,59 +80,59 @@ public class TestSubjectResourceTests {
 
     @Test
     public void shouldReturn200SubjectIdFoundRoute() throws Exception {
-        mockMvc.perform(get("/api/subjects/id/" + SUBJECT_CAROLINE.getId()))
+        mockMvc.perform(get("/api/subjects/id/" + subjectCaroline.getId()))
             .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturn204SubjectIdNotFoundRoute() throws Exception {
-        mockMvc.perform(get("/api/subjects/id/" + 42))
+        mockMvc.perform(get("/api/subjects/id/" + FOURTYTWO))
             .andExpect(status().isNoContent());
     }
 
     // -- Content returned tests
     @Test
     public void shouldReturnElementsAndCarolineSubjectsRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.id==\"" + SUBJECT_CAROLINE.getId() + "\")]";
+        String jsonPathExpression = "$.[?(@.id==\"" + subjectCaroline.getId() + "\")]";
 
         mockMvc.perform(get("/api/subjects"))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$").isNotEmpty())
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
-            .andExpect(jsonPath(jsonPathExpression + ".name").value(SUBJECT_CAROLINE.getName()));
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(subjectCaroline.getName()));
     }
 
     @Test
     public void shouldReturnCarolineSubjectIdRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.id==\"" + SUBJECT_CAROLINE.getId() + "\")]";
+        String jsonPathExpression = "$.[?(@.id==\"" + subjectCaroline.getId() + "\")]";
 
-        mockMvc.perform(get("/api/subjects/id/" + SUBJECT_CAROLINE.getId()))
+        mockMvc.perform(get("/api/subjects/id/" + subjectCaroline.getId()))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$").isNotEmpty())
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
-            .andExpect(jsonPath(jsonPathExpression + ".name").value(SUBJECT_CAROLINE.getName()));
+            .andExpect(jsonPath(jsonPathExpression + ".name").value(subjectCaroline.getName()));
     }
 
     @Test
     public void shouldReturnAtLeastCarolineSubjectNameRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_CAROLINE.getName() + "\")]";
+        String jsonPathExpression = "$.[?(@.name==\"" + subjectCaroline.getName() + "\")]";
 
-        mockMvc.perform(post("/api/subjects/name").param("name", SUBJECT_CAROLINE.getName()))
+        mockMvc.perform(post("/api/subjects/name").param("name", subjectCaroline.getName()))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$").isNotEmpty())
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty())
-            .andExpect(jsonPath(jsonPathExpression + ".id").value(SUBJECT_CAROLINE.getId()));
+            .andExpect(jsonPath(jsonPathExpression + ".id").value(subjectCaroline.getId()));
     }
 
     // -- Mutability handling operations tests (Create/Delete/Update)
     @Test
     public void should200AndReturnNewTestSubjectWithIdCreateRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_NEW.getName() + "\")]";
+        String jsonPathExpression = "$.[?(@.name==\"" + subjectNew.getName() + "\")]";
         int databaseSizeBeforeCreate = testSubjectRepository.findAll().size();
 
         mockMvc.perform(post("/api/subjects/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_NEW))
+            .content(TestUtil.convertObjectToJsonBytes(subjectNew))
         )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -151,7 +148,7 @@ public class TestSubjectResourceTests {
 
         mockMvc.perform(post("/api/subjects/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_CAROLINE))
+            .content(TestUtil.convertObjectToJsonBytes(subjectCaroline))
         )
             .andExpect(status().isBadRequest());
 
@@ -161,11 +158,11 @@ public class TestSubjectResourceTests {
 
     @Test
     public void should200AndReturnUpdatedTestSupervisor() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_CAROLINE_UPDATED.getName() + "\")]";
+        String jsonPathExpression = "$.[?(@.name==\"" + subjectCarolineUpdated.getName() + "\")]";
 
         mockMvc.perform(put("/api/subjects/update")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_CAROLINE_UPDATED))
+            .content(TestUtil.convertObjectToJsonBytes(subjectCarolineUpdated))
         )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -176,17 +173,17 @@ public class TestSubjectResourceTests {
     public void should400UpdateInexistantTestSupervisor() throws Exception {
         mockMvc.perform(put("/api/subjects/update")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(SUBJECT_WRONG_UPDATED))
+            .content(TestUtil.convertObjectToJsonBytes(subjectWrongUpdated))
         )
             .andExpect(status().isBadRequest());
     }
 
     @Test
     public void should200AndReturnDeletedTestSubjectWithIdDeleteRoute() throws Exception {
-        String jsonPathExpression = "$.[?(@.name==\"" + SUBJECT_CAROLINE.getName() + "\")]";
+        String jsonPathExpression = "$.[?(@.name==\"" + subjectCaroline.getName() + "\")]";
         int databaseSizeBeforeDelete = testSubjectRepository.findAll().size();
 
-        mockMvc.perform(delete("/api/subjects/delete/" + SUBJECT_CAROLINE.getId()))
+        mockMvc.perform(delete("/api/subjects/delete/" + subjectCaroline.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath(jsonPathExpression).isNotEmpty());
