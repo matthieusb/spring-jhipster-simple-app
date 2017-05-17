@@ -6,15 +6,17 @@ import aperture.repository.RoomRepository;
 import aperture.service.RoomService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service containing all complex operations for rooms on database.
+ */
 @Service
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
-    public RoomServiceImpl(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
+    public RoomServiceImpl(RoomRepository roomRepositoryToSet) {
+        this.roomRepository = roomRepositoryToSet;
     }
-
 
     @Override
     public Room createOrUpdateRoom(Room roomToCreateOrUpdate, TypeOperation typeOperation) {
@@ -47,7 +49,8 @@ public class RoomServiceImpl implements RoomService {
             return null;
         } else {
             Room roomToReturn = null;
-            Room roomFoundByNumber = roomRepository.findByNumber(roomToUpdate.getNumber());
+            Room roomFoundByNumber = roomRepository
+                .findByNumber(roomToUpdate.getNumber());
             if (roomFoundByNumber.getId().equals(roomToUpdate.getId())) {
                 roomToReturn = roomRepository.save(roomToUpdate);
             }

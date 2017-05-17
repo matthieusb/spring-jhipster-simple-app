@@ -7,6 +7,9 @@ import aperture.repository.TestSubjectRepository;
 import aperture.service.TestSubjectService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service containing all complex operations for test subjects on database.
+ */
 @Service
 public class TestSubjectServiceImpl implements TestSubjectService {
 
@@ -14,9 +17,11 @@ public class TestSubjectServiceImpl implements TestSubjectService {
 
     private final TestSubjectRepository testSubjectRepository;
 
-    public TestSubjectServiceImpl(RoomRepository roomRepository, TestSubjectRepository testSubjectRepository) {
-        this.roomRepository = roomRepository;
-        this.testSubjectRepository = testSubjectRepository;
+    public TestSubjectServiceImpl(
+        RoomRepository roomRepositoryToSet,
+        TestSubjectRepository testSubjectRepositoryToSet) {
+        this.roomRepository = roomRepositoryToSet;
+        this.testSubjectRepository = testSubjectRepositoryToSet;
     }
 
 
@@ -50,7 +55,8 @@ public class TestSubjectServiceImpl implements TestSubjectService {
         if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null || !allRoomsProvidedExist(testSubjectToUpdate)) {
             return null;
         } else {
-            TestSubject testSubjectFoundByName = testSubjectRepository.findByName(testSubjectToUpdate.getName());
+            TestSubject testSubjectFoundByName = testSubjectRepository
+                .findByName(testSubjectToUpdate.getName());
             if (testSubjectFoundByName == null || testSubjectFoundByName.getId().equals(testSubjectToUpdate.getId())) {
                 return testSubjectRepository.save(testSubjectToUpdate);
             } else {

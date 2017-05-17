@@ -6,6 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 
+/**
+ * MongoRepository containing all database operations for TestSupervisors.
+ */
 @SuppressWarnings("unchecked")
 public interface TestSupervisorRepository extends MongoRepository<TestSupervisor, String> {
     TestSupervisor findById(String id);

@@ -6,6 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 
+/**
+ * MongoRepository containing all database operations for TestSubjects.
+ */
 @SuppressWarnings("unchecked")
 public interface TestSubjectRepository extends MongoRepository<TestSubject, String> {
     TestSubject findById(String id);

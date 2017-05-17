@@ -18,7 +18,6 @@ public class Greeting {
         this.content = contentToSet;
     }
 
-
     public long getId() {
         return this.id;
     }

@@ -7,17 +7,22 @@ import aperture.repository.TestSupervisorRepository;
 import aperture.service.TestSupervisorService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service containing all complex operations for test supervisors on database.
+ */
 @Service
 public class TestSupervisorServiceImpl implements TestSupervisorService {
 
     private TestSupervisorRepository testSupervisorRepository;
 
-    public TestSupervisorServiceImpl(TestSupervisorRepository testSupervisorRepository) {
-        this.testSupervisorRepository = testSupervisorRepository;
+    public TestSupervisorServiceImpl(
+        TestSupervisorRepository testSupervisorRepositoryToSet) {
+        this.testSupervisorRepository = testSupervisorRepositoryToSet;
     }
 
     @Override
-    public TestSupervisor createOrUpdateTestSupervisor(TestSupervisor testSupervisorToCreateOrUpdate, TypeOperation typeOperation) {
+    public TestSupervisor createOrUpdateTestSupervisor(TestSupervisor testSupervisorToCreateOrUpdate,
+                                                       TypeOperation typeOperation) {
         if (testSupervisorToCreateOrUpdate == null) {
             return null;
         } else {
@@ -48,7 +53,7 @@ public class TestSupervisorServiceImpl implements TestSupervisorService {
             return null;
         } else {
             TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository.findByLogin(testSupervisorToUpdate.getLogin());
-            
+
             TestSupervisor testSupervisorOutput = null;
             if (testSupervisorFoundByLogin == null || testSupervisorFoundByLogin.getId().equals(testSupervisorToUpdate.getId())) {
                 testSupervisorOutput = testSupervisorRepository.save(testSupervisorToUpdate);
