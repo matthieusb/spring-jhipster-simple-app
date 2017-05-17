@@ -52,7 +52,8 @@ public class TestSupervisorServiceImpl implements TestSupervisorService {
         if (testSupervisorRepository.findById(testSupervisorToUpdate.getId()) == null) {
             return null;
         } else {
-            TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository.findByLogin(testSupervisorToUpdate.getLogin());
+            TestSupervisor testSupervisorFoundByLogin = testSupervisorRepository
+                .findByLogin(testSupervisorToUpdate.getLogin());
 
             TestSupervisor testSupervisorOutput = null;
             if (testSupervisorFoundByLogin == null || testSupervisorFoundByLogin.getId().equals(testSupervisorToUpdate.getId())) {

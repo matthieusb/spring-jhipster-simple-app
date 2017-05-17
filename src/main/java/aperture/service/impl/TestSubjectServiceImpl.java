@@ -43,7 +43,7 @@ public class TestSubjectServiceImpl implements TestSubjectService {
     @Override
     public TestSubject createTestSubject(TestSubject testSubjectToCreate) {
         testSubjectToCreate.setId(null);
-        if (testSubjectRepository.findByName(testSubjectToCreate.getName()) != null || !allRoomsProvidedExist(testSubjectToCreate)) {
+        if (this.testSubjectIsValidForInsert(testSubjectToCreate)) {
             return null;
         } else {
             return testSubjectRepository.save(testSubjectToCreate);
@@ -51,8 +51,14 @@ public class TestSubjectServiceImpl implements TestSubjectService {
     }
 
     @Override
+    public boolean testSubjectIsValidForInsert(TestSubject testSubjectToTest) {
+        return testSubjectRepository
+            .findByName(testSubjectToTest.getName()) != null || !allRoomsProvidedExist(testSubjectToTest);
+    }
+
+    @Override
     public TestSubject updateTestSubject(TestSubject testSubjectToUpdate) {
-        if (testSubjectRepository.findById(testSubjectToUpdate.getId()) == null || !allRoomsProvidedExist(testSubjectToUpdate)) {
+        if (this.testSubjectIsValidForUpdate(testSubjectToUpdate)) {
             return null;
         } else {
             TestSubject testSubjectFoundByName = testSubjectRepository
@@ -63,6 +69,12 @@ public class TestSubjectServiceImpl implements TestSubjectService {
                 return null;
             }
         }
+    }
+
+    @Override
+    public boolean testSubjectIsValidForUpdate(TestSubject testSubjectToTest) {
+        return testSubjectRepository
+            .findById(testSubjectToTest.getId()) == null || !allRoomsProvidedExist(testSubjectToTest);
     }
 
     @Override
