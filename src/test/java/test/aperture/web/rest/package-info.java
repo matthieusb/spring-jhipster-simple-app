@@ -1,5 +1,5 @@
 /**
- * Package containing al tests on rest resources..
+ * Package containing all tests on rest resources.
  *
  * @author Matthieu Sauboua-Beneluz.
  */
