@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+/**
+ * Utilities that can be used by web rest resources to handle response entities.
+ */
 public class ResponseEntityUtils {
 
     public static <E> ResponseEntity<?> getResponseEntityForSingleResponse(E elementToReturn) {
