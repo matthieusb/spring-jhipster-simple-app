@@ -159,7 +159,7 @@
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${gatling-plugin.version}</version>
                 <configuration>
-                    <simulationClass>main.aperture.gatling.MainSimulation</simulationClass>
+                    <simulationClass>gatling.MainSimulation</simulationClass>
                 </configuration>
                 <executions>
                     <execution>
