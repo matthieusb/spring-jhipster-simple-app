@@ -20,6 +20,8 @@ public class SpringBootApertureTestingConfiguration {
      * @param args the entry arguments for the app.
      */
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootApertureTestingConfiguration.class, args);
+        SpringApplication.run(
+            SpringBootApertureTestingConfiguration.class, args
+        );
     }
 }

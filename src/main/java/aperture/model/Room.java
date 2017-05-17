@@ -84,7 +84,7 @@ public class Room {
     /**
      * Sets the room number.
      *
-     * @param numberToSet the number tu set.
+     * @param numberToSet the number to set.
      */
     public void setNumber(Integer numberToSet) {
         this.number = numberToSet;
