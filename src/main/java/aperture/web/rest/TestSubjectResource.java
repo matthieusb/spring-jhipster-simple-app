@@ -129,7 +129,7 @@ public class TestSubjectResource {
         }
     }
 
-    @GetMapping(path = "/update/rooms")
+    @GetMapping(path = "/update/rooms/{id}")
     public @ResponseBody
     ResponseEntity<?> triggerRoomsUpdate(@PathVariable(value = "id") String idTestSubjectToUpdate) {
         logger.info("REST request to triggerRoomsUpdate() : " + idTestSubjectToUpdate);
@@ -154,7 +154,7 @@ public class TestSubjectResource {
 
         this.testSubjectService.doUpdateTestSubjectRoomInfoForAllOfThem();
 
-        return ResponseEntity.badRequest()
+        return ResponseEntity.accepted()
             .headers(HeaderUtil.getStandardHeaders())
             .build();
     }
