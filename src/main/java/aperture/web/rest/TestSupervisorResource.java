@@ -7,7 +7,6 @@ import aperture.service.TestSupervisorService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,6 @@ public class TestSupervisorResource {
 
     private final TestSupervisorRepository testSupervisorRepository;
 
-    @Autowired
     public TestSupervisorResource(TestSupervisorService testSupervisorServiceToSet,
                                   TestSupervisorRepository testSupervisorRepositoryToSet) {
         this.testSupervisorService = testSupervisorServiceToSet;

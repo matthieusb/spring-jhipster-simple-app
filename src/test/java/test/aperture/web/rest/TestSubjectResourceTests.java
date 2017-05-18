@@ -3,6 +3,7 @@ package test.aperture.web.rest;
 import aperture.config.SpringBootApertureApiTestConfiguration;
 import aperture.model.Room;
 import aperture.model.TestSubject;
+import aperture.repository.RoomRepository;
 import aperture.repository.TestSubjectRepository;
 import aperture.service.TestSubjectService;
 import aperture.web.rest.TestSubjectResource;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,13 +42,21 @@ public class TestSubjectResourceTests {
     @Autowired
     private TestSubjectService testSubjectService;
 
+    @Autowired
+    private RoomRepository roomRepository;
+
     private MockMvc mockMvc;
 
     // -- Variables used for tests
-    private TestSubject subjectCaroline, subjectCarolineUpdated, subjectWrongUpdated, subjectNew;
-
     private static final int FOURTYTWO = 42;
     private static final int THIRTYSIX = 36;
+
+    private TestSubject subjectCaroline, subjectCarolineUpdated, subjectWrongUpdated, subjectPBody, subjectNew;
+
+    private Room initRoomToUpdate = new Room("5063114bd386d8fadbd6b00d",
+        1,
+        "Initiation room"
+    );
 
     @Before
     public void setup() {
@@ -65,10 +75,17 @@ public class TestSubjectResourceTests {
         List<Room> carolineRooms = new ArrayList<>();
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00d", 1, "Initiation room"));
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00c", THIRTYSIX, "6x6"));
+
+        List<Room> pBodyRooms = new ArrayList<>();
+        pBodyRooms.add(new Room("5063114bd386d8fadbd6b00d", 1, "Initiation room"));
+        pBodyRooms.add(new Room("5063114bd386d8fadbd6b01a", 404, "Room Not found"));
+
         subjectCaroline = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline", carolineRooms);
         subjectCarolineUpdated = new TestSubject("5063114bd386d8fadbd6b00e", "Caroline updated", carolineRooms);
         subjectWrongUpdated = new TestSubject("5063114bd386d8fadbd6", "Caroline updated", carolineRooms);
+        subjectPBody = new TestSubject("5063114bd386d8fadbd6b01a", "P-Body", pBodyRooms);
         subjectNew = new TestSubject("0", "TestSubjectTest", carolineRooms);
+
 
         TestUtil.executeAllMongeezScripts();
     }
@@ -210,11 +227,41 @@ public class TestSubjectResourceTests {
     // -- Async room update methods
     @Test
     public void should202AndUpdateSpecificSubjectRoomTriggerRoomsUpdate() throws Exception {
+        this.roomRepository.save(initRoomToUpdate); //First, updarte this room to change its name
 
+        mockMvc.perform(get("/api/subjects/update/rooms/" + subjectCaroline.getId()))
+            .andExpect(status().isAccepted());
+
+        TestSubject testSubjectCarolineUpdated = this.testSubjectRepository.findById(subjectCaroline.getId());
+        assertTrue(//The room should have been correctly udated in caroline
+            testSubjectCarolineUpdated.getRooms().stream().anyMatch(
+                room -> room.getName().equals(initRoomToUpdate.getName())
+            )
+        );
+    }
+
+    @Test
+    public void should400AndWithIncorrectIdTriggerRoomsUpdate() throws Exception {
+        mockMvc.perform(get("/api/subjects/update/rooms/idInexistant"))
+            .andExpect(status().isBadRequest());
     }
 
     @Test
     public void should202AndUpdateAllSubjectsSubjectRoomsTriggerRoomsUpdateForAllSubjects() throws Exception {
+        this.roomRepository.save(initRoomToUpdate); //First, updarte this room to change its name
+
+        mockMvc.perform(get("/api/subjects/update/rooms/all"))
+            .andExpect(status().isAccepted());
+
+        TestSubject testSubjectCarolineUpdated = this.testSubjectRepository.findById(subjectCaroline.getId());
+        TestSubject testSubjectPBodyUpdated = this.testSubjectRepository.findById(subjectPBody.getId());
+        assertTrue(//The room should have been correctly udated in caroline
+            testSubjectCarolineUpdated.getRooms()
+                .stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName()))
+                &&
+                testSubjectPBodyUpdated
+                    .getRooms().stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName()))
+        );
 
     }
 

@@ -8,7 +8,6 @@ import aperture.service.RoomService;
 import aperture.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,6 @@ public class RoomResource {
 
     private final RoomRepository roomRepository;
 
-    @Autowired
     public RoomResource(RoomService roomServiceToSet, RoomRepository roomRepositoryToSet) {
         this.roomService = roomServiceToSet;
         this.roomRepository = roomRepositoryToSet;
