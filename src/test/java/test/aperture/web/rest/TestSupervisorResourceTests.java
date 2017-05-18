@@ -1,6 +1,6 @@
 package test.aperture.web.rest;
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiTestConfiguration;
 import aperture.model.TestSupervisor;
 import aperture.repository.TestSupervisorRepository;
 import aperture.service.TestSupervisorService;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on TestSupervisor rest resource.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiTestConfiguration.class)
 public class TestSupervisorResourceTests {
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

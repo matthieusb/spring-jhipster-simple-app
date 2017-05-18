@@ -7,12 +7,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
- * The main configuration class used for execution.
+ * The main configuration class used for testing.
+ * Does not enable async tasks.
  */
 @SpringBootApplication
 @ComponentScan({"aperture"})
 @EnableMongoRepositories("aperture.repository")
-public class SpringBootApertureTestingConfiguration {
+public class SpringBootApertureApiTestConfiguration {
 
     /**
      * Main method that start the spring-boot app.
@@ -21,7 +22,7 @@ public class SpringBootApertureTestingConfiguration {
      */
     public static void main(String[] args) {
         SpringApplication.run(
-            SpringBootApertureTestingConfiguration.class, args
+            SpringBootApertureApiTestConfiguration.class, args
         );
     }
 }

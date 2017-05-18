@@ -1,6 +1,6 @@
 package test.aperture.web.rest;
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiTestConfiguration;
 import aperture.web.rest.GreetingsResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on greetings rest resource.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiTestConfiguration.class)
 public class GreetingsResourceTests {
 
     @Autowired

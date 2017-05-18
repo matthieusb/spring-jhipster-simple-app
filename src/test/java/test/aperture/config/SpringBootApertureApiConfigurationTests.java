@@ -1,6 +1,6 @@
 package test.aperture.config;
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,10 @@ import static org.assertj.core.api.BDDAssertions.then;
  * This class tests if every url of this app returns the expected HTTP STATUS
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class,
+@SpringBootTest(classes = SpringBootApertureApiConfiguration.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-public class SpringBootApertureTestingConfigurationTests {
+public class SpringBootApertureApiConfigurationTests {
 
     @LocalServerPort
     private int port;

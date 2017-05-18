@@ -1,7 +1,7 @@
 package test.aperture.web.rest;
 
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiTestConfiguration;
 import aperture.model.Room;
 import aperture.repository.RoomRepository;
 import aperture.service.RoomService;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on room rest resource.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiTestConfiguration.class)
 public class RoomResourceTests {
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

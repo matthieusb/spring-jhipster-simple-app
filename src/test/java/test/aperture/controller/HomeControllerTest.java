@@ -1,6 +1,6 @@
 package test.aperture.controller;
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiConfiguration;
 import aperture.controller.HomeController;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on home controller.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiConfiguration.class)
 public class HomeControllerTest {
 
     @Autowired

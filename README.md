@@ -53,4 +53,7 @@ There is just a mongodb docker container and a springboot app to run. More will 
 When you run the api, you can access the address *localhost:8080/*, it will redirect you to the swagger-ui.
 From there you'll have access to all routes and be able to test them.
 
+## Evolutions
+
+Another version of this simple api should come with Spring reactive and maybe Kotlin on my github repository.
 

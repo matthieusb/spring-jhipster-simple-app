@@ -1,10 +1,10 @@
 package test.aperture.web.rest;
 
-import aperture.config.SpringBootApertureTestingConfiguration;
+import aperture.config.SpringBootApertureApiTestConfiguration;
 import aperture.model.Room;
 import aperture.model.TestSubject;
 import aperture.repository.TestSubjectRepository;
-import aperture.service.impl.TestSubjectServiceImpl;
+import aperture.service.TestSubjectService;
 import aperture.web.rest.TestSubjectResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on TestSubject rest resource.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureTestingConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiTestConfiguration.class)
 public class TestSubjectResourceTests {
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -38,7 +38,7 @@ public class TestSubjectResourceTests {
     private TestSubjectRepository testSubjectRepository;
 
     @Autowired
-    private TestSubjectServiceImpl testSubjectServiceImpl;
+    private TestSubjectService testSubjectService;
 
     private MockMvc mockMvc;
 
@@ -53,7 +53,7 @@ public class TestSubjectResourceTests {
         // -- Mock Mvc config
         MockitoAnnotations.initMocks(this);
         TestSubjectResource testSubjectResource = new TestSubjectResource(
-            testSubjectRepository, testSubjectServiceImpl
+            testSubjectRepository, testSubjectService
         );
         this.mockMvc = MockMvcBuilders.standaloneSetup(testSubjectResource)
             .setMessageConverters(jacksonMessageConverter)
@@ -128,6 +128,7 @@ public class TestSubjectResourceTests {
     }
 
     // -- Mutability handling operations tests (Create/Delete/Update)
+
     @Test
     public void should200AndReturnNewTestSubjectWithIdCreateRoute() throws Exception {
         String jsonPathExpression = "$.[?(@.name==\"" + subjectNew.getName() + "\")]";
@@ -204,6 +205,17 @@ public class TestSubjectResourceTests {
 
         int databaseSizeAfterDelete = testSubjectRepository.findAll().size();
         assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete);
+    }
+
+    // -- Async room update methods
+    @Test
+    public void should202AndUpdateSpecificSubjectRoomTriggerRoomsUpdate() throws Exception {
+
+    }
+
+    @Test
+    public void should202AndUpdateAllSubjectsSubjectRoomsTriggerRoomsUpdateForAllSubjects() throws Exception {
+
     }
 
 
