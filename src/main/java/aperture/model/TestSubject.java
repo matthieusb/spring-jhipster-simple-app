@@ -59,7 +59,7 @@ public class TestSubject {
     }
 
 
-    public void setRooms(ArrayList<Room> roomsToSet) {
+    public void setRooms(List<Room> roomsToSet) {
         this.rooms = roomsToSet;
     }
 

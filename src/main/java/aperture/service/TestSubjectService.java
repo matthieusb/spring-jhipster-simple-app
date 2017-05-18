@@ -17,4 +17,11 @@ public interface TestSubjectService {
     boolean testSubjectIsValidForUpdate(TestSubject testSubjectToTest);
 
     boolean allRoomsProvidedExist(TestSubject testSubject);
+
+    boolean triggerUpdateTestSubjectRoomInfo(String idTestSubjectToUpdate);
+
+
+    void doUpdateTestSubjectRoomInfoForAllOfThem();
+
+    void doUpdateTestSubjectRoomInfo(TestSubject testSubject);
 }

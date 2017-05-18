@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Resource containing all web rest operations for TestSubjects.
+ */
 @RestController
 @RequestMapping(value = "/api/subjects", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSubjectResource {
@@ -126,4 +129,33 @@ public class TestSubjectResource {
         }
     }
 
+    @GetMapping(path = "/update/rooms")
+    public @ResponseBody
+    ResponseEntity<?> triggerRoomsUpdate(@PathVariable(value = "id") String idTestSubjectToUpdate) {
+        logger.info("REST request to triggerRoomsUpdate() : " + idTestSubjectToUpdate);
+        boolean updateOperationCorrectlyTriggered = this.testSubjectService
+            .triggerUpdateTestSubjectRoomInfo(idTestSubjectToUpdate);
+
+        if (updateOperationCorrectlyTriggered) {
+            return ResponseEntity.accepted()
+                .headers(HeaderUtil.getStandardHeaders())
+                .build();
+        } else {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.getStandardHeaders())
+                .build();
+        }
+    }
+
+    @GetMapping(path = "/update/rooms/all")
+    public @ResponseBody
+    ResponseEntity<?> triggerRoomsUpdateForAllSubjects() {
+        logger.info("REST request to triggerRoomsUpdateForAllSubjects()");
+
+        this.testSubjectService.doUpdateTestSubjectRoomInfoForAllOfThem();
+
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.getStandardHeaders())
+            .build();
+    }
 }

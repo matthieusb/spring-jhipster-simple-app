@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Resource containing all web rest operations for TestSupervisors.
+ */
 @RestController
 @RequestMapping(value = "/api/supervisors", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class TestSupervisorResource {

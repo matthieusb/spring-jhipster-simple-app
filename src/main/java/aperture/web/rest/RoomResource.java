@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Resource containing all web rest operations for Rooms.
+ */
 @RestController
 @RequestMapping(value = "/api/rooms", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class RoomResource {
@@ -136,6 +139,4 @@ public class RoomResource {
                 .body(roomToDelete);
         }
     }
-
-
 }
