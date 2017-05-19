@@ -26,4 +26,6 @@ public interface RoomRepository extends MongoRepository<Room, String> {
 
     @Override
     void delete(Room room);
+
+    void deleteById(String idToDelete);
 }

@@ -1,6 +1,6 @@
 package test.aperture.web.rest;
 
-import aperture.config.SpringBootApertureApiTestConfiguration;
+import aperture.config.SpringBootApertureApiConfiguration;
 import aperture.model.Room;
 import aperture.model.TestSubject;
 import aperture.repository.RoomRepository;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests on TestSubject rest resource.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBootApertureApiTestConfiguration.class)
+@SpringBootTest(classes = SpringBootApertureApiConfiguration.class)
 public class TestSubjectResourceTests {
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -241,6 +241,20 @@ public class TestSubjectResourceTests {
     }
 
     @Test
+    public void should202AndDeleteSpecificSubjectRoomTriggerRoomsUpdate() throws Exception {
+        this.roomRepository.deleteById(initRoomToUpdate.getId()); //First, delete this room
+
+        mockMvc.perform(get("/api/subjects/update/rooms/" + subjectCaroline.getId()))
+            .andExpect(status().isAccepted());
+
+        TestSubject subjectCarolineAfterUpdate = this.testSubjectRepository.findById(subjectCaroline.getId());
+        assertTrue(//The room should have been correctly deleted
+            subjectCarolineAfterUpdate.getRooms().size()
+                == this.subjectCaroline.getRooms().size() - 1
+        );
+    }
+
+    @Test
     public void should400AndWithIncorrectIdTriggerRoomsUpdate() throws Exception {
         mockMvc.perform(get("/api/subjects/update/rooms/idInexistant"))
             .andExpect(status().isBadRequest());
@@ -248,22 +262,37 @@ public class TestSubjectResourceTests {
 
     @Test
     public void should202AndUpdateAllSubjectsSubjectRoomsTriggerRoomsUpdateForAllSubjects() throws Exception {
-        this.roomRepository.save(initRoomToUpdate); //First, updarte this room to change its name
+        this.roomRepository.save(initRoomToUpdate); //First, update this room to change its name
 
         mockMvc.perform(get("/api/subjects/update/rooms/all"))
             .andExpect(status().isAccepted());
 
-        TestSubject testSubjectCarolineUpdated = this.testSubjectRepository.findById(subjectCaroline.getId());
-        TestSubject testSubjectPBodyUpdated = this.testSubjectRepository.findById(subjectPBody.getId());
-        assertTrue(//The room should have been correctly udated in caroline
-            testSubjectCarolineUpdated.getRooms()
-                .stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName()))
-                &&
-                testSubjectPBodyUpdated
-                    .getRooms().stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName()))
+        TestSubject subjectCarolineAfterUpdate = this.testSubjectRepository.findById(subjectCaroline.getId());
+        TestSubject subjectPBodyAfterUpdate = this.testSubjectRepository.findById(subjectPBody.getId());
+        assertTrue(subjectCarolineAfterUpdate.getRooms()//The room should have been correctly updated in caroline
+            .stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName()))
         );
-
+        assertTrue(subjectPBodyAfterUpdate //The room should have been correctly updated in p-body
+            .getRooms().stream().anyMatch(room -> room.getName().equals(initRoomToUpdate.getName())));
     }
 
+    @Test
+    public void should202AndDeleteRoomsForAllSubjectsSubjectRoomsTriggerRoomsUpdateForAllSubjects() throws Exception {
+        this.roomRepository.deleteById(initRoomToUpdate.getId()); //First, delete this room
 
+        mockMvc.perform(get("/api/subjects/update/rooms/all"))
+            .andExpect(status().isAccepted());
+
+        TestSubject subjectCarolineAfterUpdate = this.testSubjectRepository.findById(subjectCaroline.getId());
+        TestSubject subjectPBodyAfterUpdate = this.testSubjectRepository.findById(subjectPBody.getId());
+
+        assertTrue(//The room should have been correctly deleted
+            subjectCarolineAfterUpdate.getRooms().size()
+                < this.subjectCaroline.getRooms().size()
+        );
+        assertTrue(//The room should have been correctly deleted
+            subjectPBodyAfterUpdate.getRooms().size()
+                < this.subjectPBody.getRooms().size()
+        );
+    }
 }

@@ -18,10 +18,24 @@ public interface TestSubjectService {
 
     boolean allRoomsProvidedExist(TestSubject testSubject);
 
+    /**
+     * Launches room info update for a particular test subject.
+     *
+     * @param idTestSubjectToUpdate the identifier of the test subject to update.
+     * @return an error if the test subject does not exist.
+     */
     boolean triggerUpdateTestSubjectRoomInfo(String idTestSubjectToUpdate);
 
+    /**
+     * Effectively does the room info update for all test subjects.
+     */
+    boolean doUpdateTestSubjectRoomInfoForAllOfThem();
 
-    void doUpdateTestSubjectRoomInfoForAllOfThem();
-
+    /**
+     * Effectively does the room info update for a test subject.
+     * This method updates the room elements of a test subject with the latest data available in the Room table.
+     *
+     * @param testSubject the test subject to update.
+     */
     void doUpdateTestSubjectRoomInfo(TestSubject testSubject);
 }

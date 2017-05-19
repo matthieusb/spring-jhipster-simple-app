@@ -97,12 +97,6 @@ public class TestSubjectServiceImpl implements TestSubjectService {
             );
     }
 
-    /**
-     * Launches room info update for a particular test subject.
-     *
-     * @param idTestSubjectToUpdate the identifier of the test subject to update.
-     * @return an error if the test subject does not exist.
-     */
     @Override
     public boolean triggerUpdateTestSubjectRoomInfo(String idTestSubjectToUpdate) {
         TestSubject testSubjectToUpdate = this.testSubjectRepository.findById(idTestSubjectToUpdate);
@@ -115,12 +109,8 @@ public class TestSubjectServiceImpl implements TestSubjectService {
         }
     }
 
-    /**
-     * Effectively does the room info update for all test subjects.
-     */
-    @Async
     @Override
-    public void doUpdateTestSubjectRoomInfoForAllOfThem() {
+    public boolean doUpdateTestSubjectRoomInfoForAllOfThem() {
         logger.info("Launching doUpdateTestSubjectRoomInfoForAllOfThem()");
 
         List<TestSubject> allTestSubjectsToUpdate = this.testSubjectRepository.findAll();
@@ -129,18 +119,13 @@ public class TestSubjectServiceImpl implements TestSubjectService {
             allTestSubjectsToUpdate.forEach(
                 this::doUpdateTestSubjectRoomInfo
             );
+            return true;
         } else {
             logger.error("Error in doUpdateTestSubjectRoomInfoForAllOfThem() : no testsubject to update found");
+            return false;
         }
     }
 
-
-    /**
-     * Effectively does the room info update for a test subject.
-     * This method updates the room elements of a test subject with the latest data available in the Room table.
-     *
-     * @param testSubject the test subject to update.
-     */
     @Async
     @Override
     public void doUpdateTestSubjectRoomInfo(TestSubject testSubject) {
@@ -150,15 +135,17 @@ public class TestSubjectServiceImpl implements TestSubjectService {
 
         for (Room currentRoom : testSubject.getRooms()) {
             Room currentRoomStateInDatabase = this.roomRepository.findById(currentRoom.getId());
-            if (currentRoomStateInDatabase.equals(currentRoom)) {
-                listOfRoomsUpdated.add(currentRoom);
-            } else {
-                listOfRoomsUpdated.add(currentRoomStateInDatabase);
+            if (currentRoomStateInDatabase != null) { // If the room still exists
+                if (currentRoomStateInDatabase.equals(currentRoom)) {
+                    listOfRoomsUpdated.add(currentRoom);
+                } else {
+                    listOfRoomsUpdated.add(currentRoomStateInDatabase);
+                }
             }
         }
 
         testSubject.setRooms(listOfRoomsUpdated);
         this.testSubjectRepository.save(testSubject);
+        logger.info("Finished doUpdateTestSubjectRoomInfo() on : " + testSubject);
     }
-
 }

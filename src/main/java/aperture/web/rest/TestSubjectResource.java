@@ -149,11 +149,16 @@ public class TestSubjectResource {
     public @ResponseBody
     ResponseEntity<?> triggerRoomsUpdateForAllSubjects() {
         logger.info("REST request to triggerRoomsUpdateForAllSubjects()");
+        boolean updateOperationCorrectlyTriggered = this.testSubjectService.doUpdateTestSubjectRoomInfoForAllOfThem();
 
-        this.testSubjectService.doUpdateTestSubjectRoomInfoForAllOfThem();
-
-        return ResponseEntity.accepted()
-            .headers(HeaderUtil.getStandardHeaders())
-            .build();
+        if (updateOperationCorrectlyTriggered) {
+            return ResponseEntity.accepted()
+                .headers(HeaderUtil.getStandardHeaders())
+                .build();
+        } else {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.getStandardHeaders())
+                .build();
+        }
     }
 }

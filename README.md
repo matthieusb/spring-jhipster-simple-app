@@ -26,6 +26,13 @@ For load tests with *gatling*, run :
 This will start the app and then launch the load tests on it.
 You'll see some result in your console, but you can go check out the graphs in *target/gatling* afterwards and open the index.html for nice looking graphs (Can also be done using `mvn clean install`)
 
+To launch all tests and loading tests as well :
+
+```
+mvn verify
+```
+
+
 To generate the checkstyle report (Also see the intellij integration plugin) :
 
 
@@ -38,6 +45,7 @@ To generate all jars and launch all tests :
 ```
 mvn clean install
 ```
+
 
 ## Architecture
 
