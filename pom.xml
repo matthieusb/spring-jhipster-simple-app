@@ -27,13 +27,14 @@
         <gatling-plugin.version>2.2.4</gatling-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <checkstyle-maven-plugin.version>2.17</checkstyle-maven-plugin.version>
+        <javaslang.version>1.2.2</javaslang.version>
     </properties>
 
 
     <!-- Project dependencies  -->
     <dependencies>
 
-        <!-- SpringBoot -->
+        <!-- Spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -60,6 +61,25 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!--Spring security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+        <!-- Javaslang/vavr : Not relevant for now -->
+        <!--<dependency>-->
+        <!--<groupId>com.javaslang</groupId>-->
+        <!--<artifactId>javaslang</artifactId>-->
+        <!--<version>${javaslang.version}</version>-->
+        <!--</dependency>-->
 
         <!-- Documentation -->
         <dependency>
