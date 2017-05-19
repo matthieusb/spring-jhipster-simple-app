@@ -129,7 +129,7 @@ public class TestSubjectResource {
 
     @GetMapping(path = "/update/rooms/{id}")
     public @ResponseBody
-    ResponseEntity<?> triggerRoomsUpdate(@PathVariable(value = "id") String idTestSubjectToUpdate) {
+    ResponseEntity<?> triggerRoomsUpdate(@PathVariable(value = "id") String idTestSubjectToUpdate) throws InterruptedException {
         logger.info("REST request to triggerRoomsUpdate() : " + idTestSubjectToUpdate);
         boolean updateOperationCorrectlyTriggered = this.testSubjectService
             .triggerUpdateTestSubjectRoomInfo(idTestSubjectToUpdate);

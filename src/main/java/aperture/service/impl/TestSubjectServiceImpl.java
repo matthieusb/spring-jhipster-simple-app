@@ -108,7 +108,7 @@ public class TestSubjectServiceImpl implements TestSubjectService {
             return true;
         }
     }
-
+    
     @Override
     public boolean doUpdateTestSubjectRoomInfoForAllOfThem() {
         logger.info("Launching doUpdateTestSubjectRoomInfoForAllOfThem()");
