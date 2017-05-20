@@ -46,6 +46,36 @@ To generate all jars and launch all tests :
 mvn clean install
 ```
 
+## Security
+Api authentication is done using spring security and JWT.
+To authenticate, you need to do a *POST* request on the **/api/login** endpoint and give it the following a request body :
+
+```
+{"username":"admin","password":"password"}
+```
+
+Example curl request : 
+```
+curl -i -X POST \
+  http://localhost:8080/api/login \
+  -H 'cache-control: no-cache' \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"password"}'
+```
+
+Then you get an authorization bearer in headers, you can copy it and do another request with its value as a header :
+
+```
+curl -i -X GET \
+  http://localhost:8080/api/supervisors \
+  -H 'authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5NjE0Nzk5NX0.U0bW5-_QmwBpVnf0bEK1Tg6LwF5QgSnb8ekYXygh-Zxor-ujm_btAMPz5Exw4FVGg2-oQNJAQnl-B2peuG8nlA' \
+  -H 'cache-control: no-cache' \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json"
+```
+
+This is an example route. All */api/supervisors* are blocked as an example.
 
 ## Architecture
 

@@ -10,24 +10,24 @@ public class AccountCredentials {
         password = "";
     }
 
-    public AccountCredentials(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public AccountCredentials(String usernameToSet, String passwordToSet) {
+        this.username = usernameToSet;
+        this.password = passwordToSet;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String usernameToSet) {
+        this.username = usernameToSet;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String passwordToSet) {
+        this.password = passwordToSet;
     }
 }
