@@ -81,15 +81,18 @@ This is an example route. All */api/supervisors* are blocked as an example.
 
 There is just a mongodb docker container and a springboot app to run. More will likely come. 
 
+
 ## Technologies used
 
   - API : Spring MVC app (Java) with springboot
   - Persistence : Mongodb NoSQL Database (Document oriented)
 
+
 ## Documentation
 
 When you run the api, you can access the address *localhost:8080/*, it will redirect you to the swagger-ui.
 From there you'll have access to all routes and be able to test them.
+
 
 ## Evolutions
 
