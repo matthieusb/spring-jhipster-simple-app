@@ -82,10 +82,12 @@ All */api/supervisors* require authentication as an example.
 There is just a mongodb docker container and a springboot app to run.
 You can define a mongodb database manually or execute *scripts/CreateDockerDatabases_x64*. Then you can start or stop it using docker cli.
 
+
 ## Technologies used
 
   - API : Spring MVC app (Java) with springboot
   - Persistence : Mongodb NoSQL Database (Document oriented)
+
 
 ## Documentation
 
