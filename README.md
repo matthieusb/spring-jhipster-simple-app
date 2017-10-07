@@ -41,7 +41,7 @@ mvn checkstyle:check
 ```
 
 To generate all jars and launch all tests :
- 
+
 ```
 mvn clean install
 ```
@@ -54,7 +54,7 @@ To authenticate, you need to do a *POST* request on the **/api/login** endpoint 
 {"username":"admin","password":"password"}
 ```
 
-Example curl request : 
+Example curl request :
 ```
 curl -i -X POST \
   http://localhost:8080/api/login \
@@ -75,11 +75,12 @@ curl -i -X GET \
   -H "Content-Type: application/json"
 ```
 
-This is an example route. All */api/supervisors* are blocked as an example.
+All */api/supervisors* require authentication as an example.
 
 ## Architecture
 
-There is just a mongodb docker container and a springboot app to run. More will likely come. 
+There is just a mongodb docker container and a springboot app to run.
+You can define a mongodb database manually or execute *scripts/CreateDockerDatabases_x64*. Then you can start or stop it using docker cli.
 
 ## Technologies used
 
@@ -90,8 +91,3 @@ There is just a mongodb docker container and a springboot app to run. More will 
 
 When you run the api, you can access the address *localhost:8080/*, it will redirect you to the swagger-ui.
 From there you'll have access to all routes and be able to test them.
-
-## Evolutions
-
-Another version of this simple api should come with Spring reactive and maybe Kotlin on my github repository.
-
