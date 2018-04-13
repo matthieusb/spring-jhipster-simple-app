@@ -7,6 +7,10 @@ spring:
             host: localhost
             port: 27017
             database: apiApertureDB
+    output:
+        ansi:
+            enabled: always
+
 
 security:
     basic:
