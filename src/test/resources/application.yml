@@ -7,6 +7,9 @@ spring:
             host: localhost
             port: 27017
             database: apiApertureTest
+    output:
+            ansi:
+                enabled: always
 
 security:
     basic:
