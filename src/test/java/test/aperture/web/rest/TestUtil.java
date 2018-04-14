@@ -35,7 +35,6 @@ class TestUtil {
         mongeez.setFile(new ClassPathResource(changeLogPath));
         mongeez.setMongo(new MongoClient(hostName, hostPort));
         mongeez.setDbName(dbName);
-
         return mongeez;
     }
 

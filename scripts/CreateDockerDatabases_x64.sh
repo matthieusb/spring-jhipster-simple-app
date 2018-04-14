@@ -15,7 +15,7 @@
 sudo /etc/init.d/mongodb stop
 
 # -- Creating and launching container
-docker run -p 27017:27017 --name spring_mongo_instance_01 -d mongo
+docker run -p 27017:27017 --name spring_mongo_instance_01 -d mongo:3.4.10
 
 # -- Identification (Command line)
 # mongo --port 27017

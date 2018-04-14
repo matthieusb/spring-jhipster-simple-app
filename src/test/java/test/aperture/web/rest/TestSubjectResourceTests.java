@@ -70,8 +70,6 @@ public class TestSubjectResourceTests {
             .build();
 
         /// -- Personal variables
-
-
         List<Room> carolineRooms = new ArrayList<>();
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00d", 1, "Initiation room"));
         carolineRooms.add(new Room("5063114bd386d8fadbd6b00c", THIRTYSIX, "6x6"));
@@ -87,7 +85,7 @@ public class TestSubjectResourceTests {
         subjectNew = new TestSubject("0", "TestSubjectTest", carolineRooms);
 
 
-        TestUtil.executeAllMongeezScripts();
+         TestUtil.executeAllMongeezScripts();
     }
 
     // -- HttpStatus codes tests
